@@ -1,9 +1,9 @@
-# Your Project's Title...
-Your project's description...
+# Lazard Asset Management
+Franklin site for Lazard Asset Management
 
 ## Environments
-- Preview: https://main--{repo}--{owner}.hlx.page/
-- Live: https://main--{repo}--{owner}.hlx.live/
+- Preview: https://main--lazard--hlxsites.hlx.page/
+- Live: https://main--lazard--hlxsites.hlx.live/
 
 ## Installation
 
