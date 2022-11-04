@@ -16,7 +16,7 @@
   --link-hover-color: #136ff6;
   --background-color: #fff;
   --overlay-background-color: #eee;
-  --highlight-background-color: #ccc;
+  --highlight-background-color: #f6f6f6;
   --text-color: #000;
 
   /* fonts */
@@ -73,12 +73,13 @@
    --yxt-line-height-lg: 1.5;
    --yxt-line-height-xlg: 1.6666;
    --yxt-line-height-xxlg: 1.7;
-   --yxt-font-family: system-ui,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+   --yxt-font-family: system-ui,segoe ui,roboto,oxygen-sans,ubuntu,cantarell,helvetica neue,sans-serif;
    --yxt-base-spacing-sm: 0.75rem;
    --yxt-base-spacing: 1rem;
    --yxt-module-footer-height: 1.5rem;
    --yxt-module-container-height: 1.25rem;
    --yxt-border-default: 0.0625rem solid var(--yxt-color-borders);
+   --yxt-border-invisible: 0.0625rem solid #fff0;
    --yxt-border-hover: 0.0625rem solid var(--yxt-color-brand-hover);
    --yxt-border-legacy: 0.0625rem solid #e9e9e9;
    --yxt-z-index-nav-more-modal: 2;
