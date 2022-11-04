@@ -16,4 +16,8 @@ export default async function decorate(block) {
   footer.innerHTML = html;
   await decorateIcons(footer);
   block.append(footer);
+
+  ['top-footer', 'main-footer', 'bottom-footer'].forEach((cls, i) => {
+    footer.children[i].classList.add(cls);
+  });
 }

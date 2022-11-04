@@ -40,6 +40,11 @@
   /* nav height */
   --nav-height: 64px;
 
+   /* footer */
+   --top-footer-background: #edf1f4;
+   --bottom-footer-background: #23283c;
+   --middle-footer-background: #f7f7f7;
+
    /* styles from lazard style guide */
    --yxt-color-background-highlight: #fafafa;
    --yxt-color-background-dark: #a8a8a8;
