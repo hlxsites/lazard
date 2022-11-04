@@ -256,6 +256,12 @@ main img {
   }
 }
 
+@media (min-width: 1200px) {
+  :root {
+    --nav-height: 140px;
+  }
+}
+
 @media (min-width: 1000px) {
   :root {
     --heading-font-size-xxl: 60px;
@@ -264,7 +270,6 @@ main img {
     --heading-font-size-m: 30px;
     --heading-font-size-s: 24px;
     --heading-font-size-xs: 22px;
-    --nav-height: 140px;
   }
 
   .section > div {

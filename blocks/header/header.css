@@ -7,11 +7,15 @@ header nav {
   align-items: center;
   position: absolute;
   z-index: 1;
-  background-color: var(--background-color);
+  background-color: var(--highlight-background-color);
   width: 100vw;
   height: var(--nav-height);
   box-sizing: border-box;
   font-family: var(--body-font-family);
+}
+
+header nav > * {
+  background-color: var(--background-color);
 }
 
 header nav a:any-link {
@@ -19,9 +23,9 @@ header nav a:any-link {
 }
 
 header nav[aria-expanded='true'] {
-  grid-template: 'hamburger brand tools' 'sections sections sections' 'investors investors investors';
+  grid-template: 'hamburger brand tools' 'sections sections sections' 'investors investors investors' 'extra-tools extra-tools extra-tools';
   grid-template-columns:  50px 1fr 50px;
-  grid-template-rows: var(--nav-height) max-content max-content;
+  grid-template-rows: var(--nav-height) max-content max-content max-content;
   overflow-y: scroll;
   min-height: 100vh;
 }
@@ -54,6 +58,13 @@ header nav .nav-hamburger {
   padding-left: 15px;
 }
 
+header nav .nav-hamburger, header nav .nav-brand, header nav .nav-tools {
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
 header nav[aria-expanded='false'] .nav-hamburger-icon,
 header nav[aria-expanded='false'] .nav-hamburger-icon::after,
 header nav[aria-expanded='false'] .nav-hamburger-icon::before {
@@ -65,6 +76,10 @@ header nav[aria-expanded='false'] .nav-hamburger-icon::before {
   height: 2px;
   border-radius: 3px;
   background: currentcolor;
+}
+
+header nav[aria-expanded='false'] .nav-hamburger-icon {
+  top: -3px;
 }
 
 header nav[aria-expanded='false'] .nav-hamburger-icon::after,
@@ -106,6 +121,28 @@ header nav[aria-expanded='true'] .nav-hamburger-icon::before {
 
 header nav[aria-expanded='true'] .nav-hamburger-icon::after {
   transform: rotate(-45deg)
+}
+
+/* extra tools */
+header nav .nav-extra-tools {
+  display: none;
+  margin-top: 20px;
+}
+
+header nav .nav-extra-tools > div {
+  font-size: 16px;
+  border-bottom: 2px solid var(--yxt-color-borders);
+  padding: 12px 8px;
+}
+
+header nav .nav-extra-tools .website-settings {
+  display: flex;
+  gap: 12px;
+}
+
+header nav[aria-expanded='true'] .nav-extra-tools {
+  display: initial;
+  grid-area: extra-tools;
 }
 
 /* sections */
@@ -161,7 +198,6 @@ header nav[aria-expanded='true'] .nav-sections, header nav[aria-expanded='true']
 header nav .nav-tools {
   grid-area: tools;
   flex: 0 0 auto;
-  height: 22px;
   display: flex;
   justify-content: flex-end;
 }
@@ -195,17 +231,73 @@ header nav .nav-tools form > button {
 }
 
 /* desktop nav styles */
-@media (min-width: 1000px) {
+@media (min-width: 1200px) {
   header nav {
+    background-color: var(--background-color);
     position: unset;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
     display: grid;
-    grid-template:
-    'brand tools' 2fr
-    'sections investors' 1fr / 1.3fr 1fr;
+    grid-template: unset;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 2fr 1fr;
     height: var(--nav-height);
+  }
+
+  header nav .nav-brand {
+    grid-column: 1 / span 4;
+    grid-row: 1;
+  }
+
+  header nav .nav-tools {
+    grid-column: 11 / span 2;
+    grid-row: 1;
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  header nav .nav-extra-tools {
+    grid-column: 6 / span 5;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0;
+    padding-right: 20px;
+    gap: 20px;
+  }
+
+  header nav .nav-extra-tools > div {
+    border: none;
+  }
+
+  header nav .nav-sections {
+    grid-column: 1 / span 7;
+    grid-row: 2;
+  }
+
+  header nav .nav-investors {
+    grid-column: 7 / span 6;
+    grid-row: 2;
+  }
+
+  header nav .nav-extra-tools .lang-selector {
+    display: flex;
+    align-items: center;
+  }
+
+  header nav .nav-extra-tools .lang-selector > span {
+    padding: 10px;
+  }
+
+  header nav .nav-extra-tools .lang-selector .icon {
+    display: flex;
+  }
+
+  header nav .nav-extra-tools .lang-selector > span:hover {
+    text-decoration: underline;
+    text-decoration-style: dotted;
   }
 
   header nav * {
@@ -288,10 +380,6 @@ header nav .nav-tools form > button {
     height: calc(var(--nav-height) / 2);
   }
 
-  header nav .nav-tools {
-    justify-content: flex-end;
-  }
-
   header nav .nav-sections ul, header nav .nav-investors ul {
     display: flex;
     flex-direction: row;
@@ -364,6 +452,7 @@ header nav .nav-tools form > button {
     border-radius: 4px;
     border: none;
     background-color: var(--overlay-background-color);
+    width: 100%;
   }
 
   header nav .nav-tools form > button {

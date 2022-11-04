@@ -79,5 +79,25 @@ export default async function decorate(block) {
       `;
       decorateIcons($searchPara);
     }
+
+    // Add extra tools to toolbar
+    const extraTools = document.createElement('div');
+    extraTools.innerHTML = `
+        <div class="lang-selector">
+            <div><span class="icon icon-us" /></div>
+          <span>United States</span>|<span>English</span>
+        </div>
+        <div class="website-settings">
+          <div>
+              <span class="icon icon-briefcase-fill" />
+          </div>
+          Access My Content
+        </div>
+    `;
+    extraTools.classList.add('nav-extra-tools');
+
+    const $navTools = block.querySelector('nav');
+    $navTools.prepend(extraTools);
+    decorateIcons($navTools);
   }
 }
