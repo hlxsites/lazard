@@ -5,8 +5,7 @@ header nav {
     'hamburger brand tools' var(--nav-height)
     'sections sections sections' 1fr / 50px 1fr 50px;
   align-items: center;
-  padding: 0 2rem;
-  position: fixed;
+  position: absolute;
   z-index: 1;
   background-color: var(--background-color);
   width: 100vw;
@@ -20,8 +19,9 @@ header nav a:any-link {
 }
 
 header nav[aria-expanded='true'] {
-  grid-template: 'hamburger brand' 'sections sections' 'tools tools';
-  grid-template-columns:  56px 1fr;
+  grid-template: 'hamburger brand tools' 'sections sections sections' 'investors investors investors';
+  grid-template-columns:  50px 1fr 50px;
+  grid-template-rows: var(--nav-height) max-content max-content;
   overflow-y: scroll;
   min-height: 100vh;
 }
@@ -32,6 +32,8 @@ header .nav-brand {
   font-size: 22px;
   font-weight: 700;
   line-height: 1em;
+  display: flex;
+  justify-content: center;
 }
 
 header nav .nav-brand p {
@@ -49,6 +51,7 @@ header nav .nav-hamburger {
   height: 22px;
   padding-top: 3px;
   cursor: pointer;
+  padding-left: 15px;
 }
 
 header nav[aria-expanded='false'] .nav-hamburger-icon,
@@ -108,25 +111,48 @@ header nav[aria-expanded='true'] .nav-hamburger-icon::after {
 /* sections */
 header nav .nav-sections {
   grid-area: sections;
+}
+
+header nav .nav-investors {
+  grid-area: investors;
+}
+
+header nav .nav-sections, header nav .nav-investors {
   flex-direction: column;
   display: none;
-  background-color: var(--overlay-color);
   flex: 1 1 auto;
 }
 
-header nav .nav-sections ul  {
+header nav .nav-sections ul, header nav .nav-investors ul  {
   font-size: 16px;
   font-weight: 500;
   list-style: none;
   padding-left: 0;
-} 
-
-header nav .nav-sections li {
-  font-size: 20px;
-  font-weight: 500;
+  margin: 0;
 }
 
-header nav[aria-expanded='true'] .nav-sections {
+header nav .nav-sections ul li > ul {
+  display: none;
+}
+
+header nav .nav-sections li, header nav .nav-investors li {
+  color: var(--yxt-color-sections-link);
+  font-size: 20px;
+  font-weight: 400;
+  border-top: 2px solid var(--yxt-color-borders);
+  padding: 0.8rem;
+}
+
+header nav .nav-investors li {
+  color: var(--yxt-color-investors-link);
+  font-family: "Cormorant Garamond","Times New Roman",Georgia,serif;
+}
+
+header nav .nav-sections li:last-child, header nav .nav-investors li:last-child {
+  border-bottom: 2px solid var(--yxt-color-borders);
+}
+
+header nav[aria-expanded='true'] .nav-sections, header nav[aria-expanded='true'] .nav-investors {
   display: block;
   align-self: flex-start;
 }
@@ -136,6 +162,8 @@ header nav .nav-tools {
   grid-area: tools;
   flex: 0 0 auto;
   height: 22px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 header nav .nav-tools p {
@@ -158,10 +186,19 @@ header nav[aria-expanded='true'] .nav-tools li {
 /* desktop nav styles */
 @media (min-width: 1000px) {
   header nav {
-    display: flex;
-    justify-content: space-between;
+    position: unset;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template:
+    'brand tools' 2fr
+    'sections investors' 1fr / 1.3fr 1fr;
     height: var(--nav-height);
-    padding: 16px 2rem;
+  }
+
+  header nav * {
+    box-sizing: border-box;
   }
 
   header nav .nav-sections > ul > li.nav-drop {
@@ -171,7 +208,7 @@ header nav[aria-expanded='true'] .nav-tools li {
 
   header nav .nav-drop::after {
     content: ' ';
-    border: 1px solid currentolor;
+    border: solid var(--text-color);
     transform: rotate(135deg);
     border-width: 2px 2px 0 0;
     display: inline-block;
@@ -186,34 +223,76 @@ header nav[aria-expanded='true'] .nav-tools li {
     display: none;
   }
 
-  header nav .nav-sections {
-    display: unset;
+  header nav .nav-sections li, header nav .nav-investors li {
+    border-top: none;
   }
 
-  header nav .nav-brand {
-    flex: 0 0 150px;
+  header nav .nav-sections > ul > li, header nav .nav-investors > ul > li {
+    position: relative;
+    font-size: 16px;
+    margin: 0;
+    cursor: pointer;
+    padding: 0 4px;
   }
 
-  header nav .nav-sections ul {
+  header nav .nav-sections, header nav .nav-investors {
+    height: calc(var(--nav-height) / 3);
+    display: flex;
+    justify-content: center;
+    border-top: var(--yxt-border-default);
+  }
+
+  header nav .nav-investors ul li {
+    border-left: var(--yxt-border-default);
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  header nav .nav-sections > ul > li > ul > li {
+    font-size: 18px;
+    padding: 8px 16px;
+  }
+
+  header nav .nav-sections li:last-child, header nav .nav-investors li:last-child {
+    border-bottom: none;
+  }
+
+  header nav .nav-investors ul li:last-child {
+    border-right: var(--yxt-border-default);
+  }
+
+  header nav .nav-brand, header nav .nav-tools {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: calc(var(--nav-height) / 2);
+  }
+
+  header nav .nav-tools {
+    justify-content: flex-end;
+  }
+
+  header nav .nav-sections ul, header nav .nav-investors ul {
     display: flex;
     flex-direction: row;
     background-color: unset;
     width: unset;
     margin: 0;
   }
-  
+
+  header nav .nav-investors ul {
+    height: 100%;
+  }
+
   header nav[aria-expanded='true'] .nav-sections ol {
     display: flex;
     min-height: unset;
   }
 
-  header nav .nav-sections > ul > li {
-    padding: 0 16px;
-    position: relative;
-    font-size: 16px;
-    margin: 0;
-    cursor: pointer;
-    padding-top: 0;
+  header nav .nav-investors > ul {
+    justify-content: flex-end;
   }
 
   header nav .nav-sections > ul > li > p {
@@ -236,16 +315,10 @@ header nav[aria-expanded='true'] .nav-tools li {
     height: 0;
     position: absolute;
     border-left: 15px solid transparent;
-    border-right: 15px solid transparent;    
+    border-right: 15px solid transparent;
     border-bottom: 15px solid var(--highlight-background-color);
     top: -15px;
     left: 20px;
-  }
-
-
-  header nav .nav-sections > ul > li > ul > li {
-    font-size: 18px;
-    padding: 8px 16px;
   }
 
   header nav .nav-sections > ul > li[aria-expanded='true'] ul {
@@ -255,6 +328,6 @@ header nav[aria-expanded='true'] .nav-tools li {
     width: 300px;
     left: 0;
     padding: 16px;
-    box-shadow: 0 0 5px var(text-color);
+    box-shadow: 0 0 5px var(--text-color);
   }
 }
