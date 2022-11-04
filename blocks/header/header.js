@@ -62,5 +62,22 @@ export default async function decorate(block) {
     nav.setAttribute('aria-expanded', 'false');
     decorateIcons(nav);
     block.append(nav);
+
+    // Extract search bar config
+    const $searchAnchor = block.querySelector('.nav-tools p a');
+    const $searchPara = block.querySelector('.nav-tools p');
+    if ($searchAnchor) {
+      const searchHref = $searchAnchor.getAttribute('href');
+      const searchIconClass = $searchAnchor.querySelector('span')?.classList;
+      $searchPara.innerHTML = `
+        <form action="${searchHref}">
+            <input name="query" type="text" placeholder="Search" />
+            <button type="submit" aria-label="submit search query">
+                <span class="${searchIconClass.toString()}"></span>
+            </button>
+        </form>
+      `;
+      decorateIcons($searchPara);
+    }
   }
 }
