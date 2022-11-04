@@ -20,4 +20,18 @@ export default async function decorate(block) {
   ['top-footer', 'main-footer', 'bottom-footer'].forEach((cls, i) => {
     footer.children[i].classList.add(cls);
   });
+
+  // Add lang selector
+  const extraTools = document.createElement('li');
+  extraTools.innerHTML = `
+        <div class="lang-selector">
+            <div><span class="icon icon-us" /></div>
+          <span>United States</span>|<span>English</span>
+        </div>
+    `;
+  extraTools.classList.add('footer-extra-tools');
+
+  const $navTools = block.querySelector('.top-footer ul');
+  $navTools.append(extraTools);
+  decorateIcons($navTools);
 }

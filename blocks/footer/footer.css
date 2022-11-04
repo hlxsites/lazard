@@ -16,6 +16,7 @@ footer .top-footer ul {
   gap: 16px;
   max-width: 1200px;
   margin: 0 auto;
+  align-items: center;
 }
 
 footer .top-footer ul li > a {
@@ -29,8 +30,9 @@ footer .top-footer ul li img {
 
 footer .bottom-footer {
   background-color: var(--bottom-footer-background);
-  color: white;
-  padding: 30px;
+  color: #d7d7d7;
+  padding: 8px;
+  font-size: 0.82rem;
   text-align: center;
 }
 
@@ -60,19 +62,57 @@ footer .main-footer ul li > a:hover {
 
 footer .main-footer p {
   font-weight: 600;
+  color: rgb(79 79 79);
+  text-transform: uppercase;
+}
+
+footer .lang-selector {
+  display: flex;
+  align-items: center;
+}
+
+footer .lang-selector > span {
+  padding: 10px;
+}
+
+footer .lang-selector .icon {
+  display: flex;
+}
+
+footer .lang-selector > span:hover {
+  text-decoration: underline;
+  text-decoration-style: dotted;
 }
 
 @media (min-width: 1200px) {
   footer .main-footer {
     display: grid;
     grid-template-rows: 1fr auto;
+    grid-auto-columns: minmax(0, 180px);
+    grid-template-columns: max-content;
+    column-gap: 20px;
     grid-auto-flow: column;
     text-align: start;
     padding-bottom: 50px;
   }
 
+  footer .bottom-footer p {
+    max-width: 1200px;
+    text-align: right;
+    margin: 0 auto;
+    padding: 5px;
+  }
+
   footer .main-footer p:first-child {
     grid-row: 1 / span 2;
+  }
+
+  footer .top-footer ul {
+    justify-content: space-between;
+  }
+
+  footer .bottom-footer {
+    overflow: hidden;
   }
 }
 
