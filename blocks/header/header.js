@@ -99,5 +99,7 @@ export default async function decorate(block) {
     const $navTools = block.querySelector('nav');
     $navTools.prepend(extraTools);
     decorateIcons($navTools);
+
+    console.log('test');
   }
 }
