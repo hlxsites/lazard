@@ -1,15 +1,10 @@
-import { decorateIcons } from '../../scripts/lib-franklin.js';
+import { decorateIcons, addChevronToLinks } from '../../scripts/lib-franklin.js';
 
 export default function decorate($block) {
   const $title = $block.querySelector('h1');
   const $description = $block.querySelector('.button-container');
 
-  // Add chevron to links
-  [...$block.querySelectorAll('.button.primary')].forEach(($button) => {
-    const $linkIcon = document.createElement('span');
-    $linkIcon.classList.add('icon', 'icon-chevron-right');
-    $button.append($linkIcon);
-  });
+  addChevronToLinks([...$block.querySelectorAll('.button.primary')]);
 
   const title = $title.innerHTML;
   const description = $description.innerHTML;

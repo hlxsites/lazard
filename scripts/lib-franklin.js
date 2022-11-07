@@ -149,6 +149,19 @@ export function decorateIcons(element = document) {
 }
 
 /**
+ * Adds a chevron to a group of link
+ * @param group The group of link elements
+ */
+export function addChevronToLinks(group) {
+  // Add chevron to links
+  group.forEach(($button) => {
+    const $linkIcon = document.createElement('span');
+    $linkIcon.classList.add('icon', 'icon-chevron-right');
+    $button.append($linkIcon);
+  });
+}
+
+/**
  * Gets placeholders object
  * @param {string} prefix
  */

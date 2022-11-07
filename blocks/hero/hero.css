@@ -127,6 +127,10 @@ main .hero .cards.hero picture {
     box-sizing: unset;
 }
 
+main .hero .cards.hero .button.primary:hover .icon {
+    transform: translate(0);
+}
+
 main .hero .orange-wrapper {
     font-family: var(--serif-font-family);
     background-color: #d65905;
