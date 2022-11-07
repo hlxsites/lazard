@@ -1,0 +1,45 @@
+.tabs ul {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tabs ul li {
+  text-align: center;
+  border-bottom: 2px solid var(--yxt-color-borders);
+  padding: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.tabs ul li:first-child {
+  border-top: 2px solid var(--yxt-color-borders);
+}
+
+.tabs ul li a {
+  color: var(--yxt-color-text-secondary);
+}
+
+
+.tabs ul li[aria-selected='true'] {
+  background-color: var(--brand-turquoise);
+  color: white;
+}
+
+.tabs ul li[aria-selected='true'] a {
+  color: white;
+}
+
+.section.tabs-container {
+  padding: 10px 0 0;
+}
+
+.section.tabs-container h1 {
+  font-size: 1.6rem;
+  font-family: var(--serif-font-family);
+  color: var(--yxt-color-investors-link);
+  font-weight: 400;
+  margin-left: 50px;
+}
