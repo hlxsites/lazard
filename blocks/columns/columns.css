@@ -52,12 +52,12 @@
         margin-left: 32px;
     }
 
+    .columns > div > div:first-of-type {
+        margin-left: unset;
+    }
+
     .columns.investment > div > div:first-child {
         flex: 2;
         padding-right: 60px;
-    }
-
-    .columns > div > div:first-of-type {
-        margin-left: unset;
     }
 }
