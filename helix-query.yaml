@@ -4,7 +4,7 @@ version: 1
 indices:
   research-insights:
     include:
-      - '**/research-insights/**'
+      - '**/research-insights/*/**'
     target: /query-index
     properties:
       title:
