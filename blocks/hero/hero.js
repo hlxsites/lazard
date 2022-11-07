@@ -1,0 +1,42 @@
+import { decorateIcons } from '../../scripts/lib-franklin.js';
+
+export default function decorate($block) {
+  const $title = $block.querySelector('h1');
+  const $description = $block.querySelector('.button-container');
+
+  // Add chevron to links
+  [...$block.querySelectorAll('.button.primary')].forEach(($button) => {
+    const $linkIcon = document.createElement('span');
+    $linkIcon.classList.add('icon', 'icon-chevron-right');
+    $button.append($linkIcon);
+  });
+
+  const title = $title.innerHTML;
+  const description = $description.innerHTML;
+
+  // Add orange wrapper div to headline
+  const $orangeWrapper = document.createElement('div');
+  $orangeWrapper.classList.add('orange-wrapper');
+  $orangeWrapper.append(description);
+  $title.replaceWith($orangeWrapper);
+  $description.remove();
+  $orangeWrapper.innerHTML = `
+    <h1>${title}</h1>
+    <hr />
+    <p>${description}</p>
+  `;
+
+  // Structure cards
+  [...$block.querySelectorAll('.cards.hero > div')].forEach(($card) => {
+    const $image = $card.children[0];
+    const $rest = $card.children[1];
+
+    const $cardTitle = $rest.children[0];
+    $rest.insertBefore($image, $cardTitle.nextSibling);
+
+    const $hr = document.createElement('hr');
+    $rest.insertBefore($hr, $image);
+  });
+
+  decorateIcons($block);
+}

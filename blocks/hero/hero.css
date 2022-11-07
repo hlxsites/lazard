@@ -3,15 +3,13 @@
 main .hero-container > div {
     max-width: unset;
 }
-  
+
 main .hero-container {
     padding: 0;
 }
-  
+
 main .hero {
     position: relative;
-    padding: 32px;
-    min-height: 300px;
 }
 
 main .hero h1 {
@@ -27,7 +25,6 @@ main .hero picture {
     z-index: -1;
     top: 0;
     left: 0;
-    bottom: 0;
     right: 0;
     object-fit: cover;
     box-sizing: border-box;
@@ -37,4 +34,149 @@ main .hero img {
     object-fit: cover;
     width: 100%;
     height: 100%;
+}
+
+main .hero > div > div > picture > img {
+    min-height: 700px;
+}
+
+main .hero .cards.hero {
+    position: unset;
+    padding: 32px;
+    min-height: unset;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+main .hero .cards.hero > div {
+    padding: 10px;
+    background: white;
+    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+    text-align: center;
+}
+
+main .hero .cards.hero > div:hover {
+    box-shadow: 0 2px 24px 0 rgb(0 0 0 / 16%);
+}
+
+main .hero .cards.hero p:last-child {
+    font-size: 1rem;
+    font-family: var(--serif-font-family);
+    color: var(--yxt-color-investors-link);
+}
+
+main .hero .cards.hero picture img {
+    width: 140px;
+    height: 69px;
+}
+
+main .hero .button.primary {
+    padding: 10px;
+    margin: 0 0 0 -10px;
+    background-color: unset;
+    border-radius: unset;
+    border: unset;
+    white-space: unset;
+    text-align: start;
+    font-size: 0.95rem;
+    font-weight: 200;
+    font-family: var(--serif-font-family);
+    display: flex;
+}
+
+main .hero .button.primary:hover {
+    background: rgb(255 255 255 / 12%);
+}
+
+main .hero .cards.hero .button.primary {
+    color: black;
+    font-size: 1.25rem;
+    font-family: var(--sans-font-family);
+    font-weight: 400;
+    text-align: center;
+    justify-content: center;
+
+}
+
+main .hero .cards.hero .button.primary:hover {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    color: var(--yxt-color-brand-primary);
+}
+
+main .hero .orange-wrapper hr {
+    border: 1px solid white;
+    width: 150px;
+    margin-left: 0;
+}
+
+main .hero .cards.hero hr {
+    width: 120px;
+    border-bottom: 1px solid #4f4f4f;
+}
+
+main .hero .cards.hero picture {
+    position: unset;
+    z-index: unset;
+    top: unset;
+    left: unset;
+    bottom: unset;
+    right: unset;
+    object-fit: cover;
+    box-sizing: unset;
+}
+
+main .hero .orange-wrapper {
+    font-family: var(--serif-font-family);
+    background-color: #d65905;
+    box-shadow: 6px 6px 2px 0 rgb(156 156 156 / 25%);
+    max-width: 800px;
+    padding-left: 80px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-bottom: 150px;
+}
+
+main .hero .orange-wrapper h1 {
+    font-family: var(--serif-font-family);
+    font-weight: 400;
+    font-size: 2.6187rem;
+    line-height: 3.0125rem;
+}
+
+main .hero .icon {
+    display: flex;
+    align-items: center;
+}
+
+@media (min-width: 1200px) {
+    main .hero.block > div > div {
+        max-width: 1200px;
+        margin: auto;
+        padding: 50px;
+    }
+
+    main .orange-wrapper {
+        margin-left: -80px;
+        margin-top: 50px;
+    }
+
+    main .hero .cards.hero {
+        flex-direction: row;
+        max-width: 1200px;
+        margin: auto;
+        padding: 0;
+    }
+
+    main .hero > div > div > picture > img {
+        height: 600px;
+    }
+
+    main .hero .cards.hero div > .button-container .button.primary {
+        margin: 0;
+        padding: 0;
+        height: 60px;
+        align-items: center;
+    }
 }
