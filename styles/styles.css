@@ -19,6 +19,7 @@
   --highlight-background-color: #f6f6f6;
   --text-color: #000;
   --brand-teal: #175c89;
+  --brand-turquoise: #00b0af;
   --brand-teal-hover: #1e79b5;
 
   /* fonts */
@@ -308,4 +309,8 @@ main .section.highlight {
   padding-top: 65px;
   padding-bottom: 65px;
   color: white;
+}
+
+.section.light-gray {
+  background-color: var(--highlight-background-color);
 }
