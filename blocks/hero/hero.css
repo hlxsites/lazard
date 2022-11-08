@@ -19,6 +19,7 @@ main .hero h1 {
     color: white;
 }
 
+
 main .hero picture {
     position: absolute;
     z-index: -1;
@@ -34,7 +35,7 @@ main .hero img {
     width: 100%;
     height: 100%;
 }
-<<<<<<< HEAD
+
 
 main .hero > div > div > picture > img {
     min-height: 700px;
@@ -153,6 +154,28 @@ main .hero .orange-wrapper h1 {
     font-size: 2.6187rem;
     line-height: 3.0125rem;
 }
+
+/* Hero styles specific for article pages */
+
+.article main .hero {
+    display: flex;
+    align-items: center;
+}
+
+.article main .hero h1 {    
+    line-height: normal;
+    margin-right: 0%;
+    margin-left: 0%;
+    font-size: 3rem;
+    padding-left: 1em;
+}
+
+.article main .hero .herobackground {
+    background-image: linear-gradient(to right, rgba(0, 55, 100, .7), rgb(0, 55, 100, .7));
+    height: 9rem;
+    width: 100%;
+}
+
 
 @media (min-width: 1200px) {
     main .hero.block > div > div {
