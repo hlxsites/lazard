@@ -50,12 +50,17 @@ async function handleAutoDataSidebar($block) {
 }
 
 async function handleSidebarContentVariation(variation, content) {
+  content.classList.add(variation);
+
   if (variation === 'download') {
     const link = content.querySelector('a');
     content.append(link);
     content.querySelector('.button-container').remove();
     link.innerHTML = '';
     link.append(content.querySelector('picture'));
+    const title = document.createElement('h3');
+    title.textContent = 'Download PDF';
+    content.prepend(title);
   } else if (variation === 'teaser') {
     const articleLink = new URL(content.querySelector('.button-container > a').href).pathname;
     const pages = await lookupPages([articleLink], 'main');
@@ -67,6 +72,14 @@ async function handleSidebarContentVariation(variation, content) {
         <p>${page.subtitle}</p>
       `;
     }
+  } else if (variation === 'author') {
+    const authorTag = document.createElement('h3');
+    authorTag.textContent = 'AUTHOR';
+    content.prepend(authorTag);
+    [...content.children].forEach((child) => {
+      if (child.querySelector('picture')) child.classList.add('image-container');
+      if (child.tagName === 'P' && child.classList.length === 0) child.classList.add('text');
+    });
   }
 
   return content;
