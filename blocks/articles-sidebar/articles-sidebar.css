@@ -16,6 +16,42 @@
   margin: 0 0 12px;
 }
 
+.sidebar-container .author {
+  display: grid;
+  grid-template:
+      'top top'
+      'picture title'
+      'picture description' / 2fr 1fr;
+  gap: 12px;
+}
+
+.sidebar-container .author .button.primary {
+  color: var(--yxt-color-brand-hover);
+  padding: unset;
+  margin: unset;
+  background-color: unset;
+}
+
+.sidebar-container .download h3 {
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  color: white;
+  font-weight: 400;
+  font-size: 1.5rem;
+  background-color: #7dbd42;
+  margin: 0 0 16px;
+}
+.sidebar-container .download {
+  padding: 0;
+}
+
+.sidebar-container .download *:not(h3) {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+
 .sidebar-container .author h3 {
   grid-area: top;
   margin: 0;
@@ -71,14 +107,6 @@
 .sidebar-container > div > a:hover .icon {
   transition: transform 200ms ease-in-out;
   transform: translate(15px);
-}
-
-.sidebar-container .author {
-  display: grid;
-  grid-template:
-      'top top' 3fr
-      'picture title'
-      'picture description' / 3fr 1fr;
 }
 
 .sidebar-container .author .text {
