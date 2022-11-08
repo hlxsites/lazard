@@ -71,16 +71,19 @@
   }
 
   .articles-sidebar-container > .articles-sidebar-wrapper {
+    height: 100%;
     grid-column: 2;
     grid-row: 1 / infinite;
+    width: 100%;
   }
 
   .articles-sidebar-container > *:not(.articles-sidebar-wrapper) {
     grid-column: 1;
   }
 
-  .featured-articles-container.articles-sidebar-container {
+  main .section.articles-sidebar-container {
     max-width: 1200px;
     margin: auto;
+    padding: 50px 0;
   }
 }
