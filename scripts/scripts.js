@@ -1,16 +1,16 @@
 import {
-  sampleRUM,
   buildBlock,
-  loadHeader,
-  loadFooter,
+  decorateBlocks,
   decorateButtons,
   decorateIcons,
   decorateSections,
-  decorateBlocks,
   decorateTemplateAndTheme,
-  waitForLCP,
   loadBlocks,
   loadCSS,
+  loadFooter,
+  loadHeader,
+  sampleRUM,
+  waitForLCP,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
@@ -108,9 +108,9 @@ async function loadLazy(doc) {
 }
 
 /**
- * looks up pages from index.
+ * Gets the article index
  */
-export async function lookupPages(pathnames, collection) {
+export async function getArticlesIndex(collection) {
   const indexPaths = {
     main: '/query-index.json',
   };
@@ -125,14 +125,21 @@ export async function lookupPages(pathnames, collection) {
     });
     window.pageIndex[collection] = { data: json.data, lookup };
   }
+}
+
+/**
+ * looks up pages from index.
+ */
+export async function lookupPages(pathnames, collection) {
+  await getArticlesIndex(collection);
 
   /* guard for legacy URLs */
   pathnames.forEach((path, i) => {
     if (path.endsWith('/')) pathnames[i] = path.substr(0, path.length - 1);
   });
   const { lookup } = window.pageIndex[collection];
-  const result = pathnames.map((path) => lookup[path]).filter((e) => e);
-  return result;
+  return pathnames.map((path) => lookup[path])
+    .filter((e) => e);
 }
 
 export function URLtoPath(url) {

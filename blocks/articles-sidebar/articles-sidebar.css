@@ -1,0 +1,66 @@
+.sidebar-container {
+  display: flex;
+  gap: 2px;
+  flex-direction: column;
+}
+
+.sidebar-container > div {
+  background-color: #eef4f4;
+  padding: 16px;
+}
+
+.sidebar-container > div:last-child h3 {
+  margin: 0;
+}
+
+.sidebar-container > div .description {
+  text-transform: uppercase;
+  color: var(--brand-turquoise);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.sidebar-container > div .date {
+  text-transform: uppercase;
+  color: var(--yxt-color-investors-link);
+  font-size: 0.8rem;
+}
+
+.sidebar-container > div a h3 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--yxt-color-investors-link);
+  margin: 0 0 12px;
+}
+
+.sidebar-container > div p {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--yxt-color-investors-link);
+  font-family: var(--serif-font-family);
+}
+
+.sidebar-container > div > a {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  color: var(--yxt-color-investors-link);
+}
+
+.sidebar-container > div > a .icon {
+  transform: translate(0);
+  transition: transform 200ms ease-in-out;
+}
+
+.sidebar-container > div > a:hover .icon {
+  transition: transform 200ms ease-in-out;
+  transform: translate(15px);
+}
+
+@media (min-width: 1200px) {
+  .sidebar-container {
+    max-width: 350px;
+    /*float: right;*/
+  }
+}
