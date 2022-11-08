@@ -36,4 +36,9 @@ export default async function decorate($block) {
 
   addChevronToLinks([...$block.querySelectorAll('.sidebar-container > div > a')]);
   await decorateIcons($block);
+
+  // set the grid row template according to number of children
+  const sidebarContainer = document.querySelector('.articles-sidebar-container');
+  const sidebarContainerChildren = sidebarContainer.children.length;
+  sidebarContainer.style.gridTemplateRows = `repeat(${sidebarContainerChildren - 1}, auto)`;
 }
