@@ -1,16 +1,16 @@
 import {
-  sampleRUM,
   buildBlock,
-  loadHeader,
-  loadFooter,
+  decorateBlocks,
   decorateButtons,
   decorateIcons,
   decorateSections,
-  decorateBlocks,
   decorateTemplateAndTheme,
-  waitForLCP,
   loadBlocks,
   loadCSS,
+  loadFooter,
+  loadHeader,
+  sampleRUM,
+  waitForLCP,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
@@ -108,6 +108,45 @@ async function loadLazy(doc) {
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
   sampleRUM.observe(main.querySelectorAll('picture > img'));
+}
+
+/**
+ * Gets the article index
+ */
+export async function getArticlesIndex(collection) {
+  const indexPaths = {
+    main: '/query-index.json',
+  };
+  const indexPath = indexPaths[collection];
+  window.pageIndex = window.pageIndex || {};
+  if (!window.pageIndex[collection]) {
+    const resp = await fetch(indexPath);
+    const json = await resp.json();
+    const lookup = {};
+    json.data.forEach((row) => {
+      lookup[row.path] = row;
+    });
+    window.pageIndex[collection] = { data: json.data, lookup };
+  }
+}
+
+/**
+ * looks up pages from index.
+ */
+export async function lookupPages(pathnames, collection) {
+  await getArticlesIndex(collection);
+
+  /* guard for legacy URLs */
+  pathnames.forEach((path, i) => {
+    if (path.endsWith('/')) pathnames[i] = path.substr(0, path.length - 1);
+  });
+  const { lookup } = window.pageIndex[collection];
+  return pathnames.map((path) => lookup[path])
+    .filter((e) => e);
+}
+
+export function URLtoPath(url) {
+  return (new URL(url)).pathname;
 }
 
 /**
