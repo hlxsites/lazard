@@ -106,6 +106,38 @@ async function loadLazy(doc) {
 }
 
 /**
+ * looks up pages from index.
+ */
+export async function lookupPages(pathnames, collection) {
+  const indexPaths = {
+    main: '/query-index.json',
+  };
+  const indexPath = indexPaths[collection];
+  window.pageIndex = window.pageIndex || {};
+  if (!window.pageIndex[collection]) {
+    const resp = await fetch(indexPath);
+    const json = await resp.json();
+    const lookup = {};
+    json.data.forEach((row) => {
+      lookup[row.path] = row;
+    });
+    window.pageIndex[collection] = { data: json.data, lookup };
+  }
+
+  /* guard for legacy URLs */
+  pathnames.forEach((path, i) => {
+    if (path.endsWith('/')) pathnames[i] = path.substr(0, path.length - 1);
+  });
+  const { lookup } = window.pageIndex[collection];
+  const result = pathnames.map((path) => lookup[path]).filter((e) => e);
+  return result;
+}
+
+export function URLtoPath(url) {
+  return (new URL(url)).pathname
+}
+
+/**
  * loads everything that happens a lot later, without impacting
  * the user experience.
  */
