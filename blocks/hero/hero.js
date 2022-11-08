@@ -1,10 +1,17 @@
 import { decorateIcons, addChevronToLinks } from '../../scripts/lib-franklin.js';
 
-export default function decorate($block) {
-  if (isArticle()) { 
-    return decorateArticle($block);
-  }
+function decorateArticleHero($block) {
+  const $title = $block.querySelector('h1');
+  const titleWrapper = document.createElement('div');
+  titleWrapper.innerHTML = `<div class="hero-background"><h1>${$title.textContent}</h1></div>`;
+  $title.replaceWith(titleWrapper);
+}
 
+function isArticle() {
+  return document.querySelector('body.article');
+}
+
+function decorateHomePageHero($block) {
   const $title = $block.querySelector('h1');
   const $description = $block.querySelector('.button-container');
 
@@ -40,14 +47,9 @@ export default function decorate($block) {
   decorateIcons($block);
 }
 
-function decorateArticle(block) {    
-  const title = block.querySelector('h1');
-  const divHeroText = document.createElement('div');
-  divHeroText.classList.add('herobackground');
-  divHeroText.appendChild(title);
-  block.append(divHeroText);
-}
-
-function isArticle() {
-    return document.querySelector('body', '.article');
+export default function decorate($block) {
+  if (isArticle()) {
+    return decorateArticleHero($block);
+  }
+  return decorateHomePageHero($block);
 }

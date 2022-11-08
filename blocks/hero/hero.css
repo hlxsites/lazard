@@ -1,5 +1,9 @@
 /* block specific CSS goes here */
 
+:root {
+    --article-hero-height: 300px;
+}
+
 main .hero-container > div {
     max-width: unset;
 }
@@ -19,6 +23,31 @@ main .hero h1 {
     color: white;
 }
 
+/* Hero styles specific for article pages */
+.article main .hero .hero-background {
+    background-image: linear-gradient(to right, rgb(0 55 100 / 70%), rgb(0 55 100 / 70%));
+    height: 9rem;
+    width: 100%;
+}
+
+.article main .hero > div > div > div {
+    height: var(--article-hero-height);
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.article main .hero > div > div > div > div {
+    display: flex;
+    align-items: center;
+}
+
+.article main .hero h1 {
+    line-height: normal;
+    margin: 0;
+    font-size: 3rem;
+    padding-left: 1em;
+}
 
 main .hero picture {
     position: absolute;
@@ -66,6 +95,12 @@ main .hero .cards.hero p:last-child {
     font-family: var(--serif-font-family);
     color: var(--yxt-color-investors-link);
 }
+
+.article main .hero > div > div > picture > img {
+    height: var(--article-hero-height);
+    min-height: unset;
+}
+
 
 main .hero .cards.hero picture img {
     width: 140px;
@@ -155,33 +190,16 @@ main .hero .orange-wrapper h1 {
     line-height: 3.0125rem;
 }
 
-/* Hero styles specific for article pages */
-
-.article main .hero {
-    display: flex;
-    align-items: center;
-}
-
-.article main .hero h1 {    
-    line-height: normal;
-    margin-right: 0%;
-    margin-left: 0%;
-    font-size: 3rem;
-    padding-left: 1em;
-}
-
-.article main .hero .herobackground {
-    background-image: linear-gradient(to right, rgba(0, 55, 100, .7), rgb(0, 55, 100, .7));
-    height: 9rem;
-    width: 100%;
-}
-
-
 @media (min-width: 1200px) {
     main .hero.block > div > div {
         max-width: 1200px;
         margin: auto;
         padding: 50px;
+    }
+
+    .article main .hero.block > div > div {
+        padding: 0;
+        max-width: unset;
     }
 
     main .orange-wrapper {
