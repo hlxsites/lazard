@@ -134,7 +134,7 @@ export async function lookupPages(pathnames, collection) {
 }
 
 export function URLtoPath(url) {
-  return (new URL(url)).pathname
+  return (new URL(url)).pathname;
 }
 
 /**
