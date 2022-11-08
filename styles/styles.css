@@ -18,6 +18,8 @@
   --overlay-background-color: #eee;
   --highlight-background-color: #f6f6f6;
   --text-color: #000;
+  --brand-teal: #175c89;
+  --brand-teal-hover: #1e79b5;
 
   /* fonts */
   --body-font-family: 'helvetica neue', helvetica, ubuntu, roboto, noto, sans-serif;
@@ -166,22 +168,32 @@ a.button:any-link, button {
   box-sizing: border-box;
   text-decoration: none;
   border: 2px solid transparent;
-  padding: 5px 30px;
+  padding: 5px 35px;
   text-align: center;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
   color: var(--background-color);
-  background-color: var(--link-color);
+  background-color: var(--brand-teal);
   margin: 16px 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  border-radius: 30px;
+  border-radius: 2px;
+}
+
+.button.primary .icon {
+  transform: translate(0);
+  transition: transform 200ms ease-in-out;
+}
+
+.button.primary:hover .icon {
+  transition: transform 200ms ease-in-out;
+  transform: translate(15px);
 }
 
 a.button:hover, a.button:focus, button:hover, button:focus  {
-  background-color: var(--link-hover-color);
+  background-color: var(--brand-teal-hover);
   cursor: pointer;
 }
 
@@ -292,5 +304,8 @@ main .section[data-section-status='initialized'] {
 }
 
 main .section.highlight {
-  background-color: var(--highlight-background-color);
+  background-image: linear-gradient(65deg,#1e79b5,#00b0af);
+  padding-top: 65px;
+  padding-bottom: 65px;
+  color: white;
 }

@@ -127,6 +127,15 @@ main .hero .cards.hero picture {
     box-sizing: unset;
 }
 
+main .hero .icon {
+    display: flex;
+    align-items: center;
+}
+
+main .hero .cards.hero .button.primary:hover .icon {
+    transform: translate(0);
+}
+
 main .hero .orange-wrapper {
     font-family: var(--serif-font-family);
     background-color: #d65905;
@@ -143,11 +152,6 @@ main .hero .orange-wrapper h1 {
     font-weight: 400;
     font-size: 2.6187rem;
     line-height: 3.0125rem;
-}
-
-main .hero .icon {
-    display: flex;
-    align-items: center;
 }
 
 @media (min-width: 1200px) {
