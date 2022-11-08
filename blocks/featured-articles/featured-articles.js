@@ -5,7 +5,7 @@ function parseCardLinks(block) {
 
   // Featured articles is a specific block made up
   // by two rows with a fixed number of columns: one
-  // for the first row, two for the second
+  // for the first row, three for the second
   if (rows.length !== 2 || rows[0].getElementsByTagName('div').length !== 1
     || rows[1].getElementsByTagName('div').length !== 3) {
     return [];
