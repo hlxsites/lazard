@@ -14,12 +14,10 @@ main .hero {
 
 main .hero h1 {
     max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
     color: white;
-    line-height: normal;
-    font-size: 3rem;
-    padding-left: 1em;
 }
-
 
 main .hero picture {
     position: absolute;
