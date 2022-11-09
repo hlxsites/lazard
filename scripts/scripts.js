@@ -33,6 +33,15 @@ function buildHeroBlock(main) {
   }
 }
 
+function buildArticleImageCaption(main) {
+  const pictures = main.querySelectorAll('.article picture');
+  pictures.forEach((picture) => {
+    if (picture.parentElement.nextElementSibling && picture.parentElement.nextElementSibling.firstChild.tagName === 'EM') {
+      picture.parentElement.nextElementSibling.classList.add('caption');
+    }
+  });
+}
+
 /**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
@@ -40,6 +49,7 @@ function buildHeroBlock(main) {
 function buildAutoBlocks(main) {
   try {
     buildHeroBlock(main);
+    buildArticleImageCaption(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);

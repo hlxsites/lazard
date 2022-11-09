@@ -1,6 +1,7 @@
 footer {
   font-size: 0.95rem;
   background-color: var(--middle-footer-background);
+  font-family: var(--sans-font-family);
 }
 
 footer .top-footer {
