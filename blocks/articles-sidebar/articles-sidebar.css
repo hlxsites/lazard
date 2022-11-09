@@ -96,11 +96,16 @@
   padding: 0;
 }
 
-.sidebar-container > div.teaser a h3 {
-  color: white;
+.sidebar-container > div.teaser a {
+  flex-direction: column;
+  gap: 0;
 }
 
-.sidebar-container .teaser a {
+.sidebar-container > div.teaser a:hover {
+  text-decoration: unset;
+}
+
+.sidebar-container .teaser a h3 {
   padding: 12px;
   background: #5d87a1;
   color: white;
@@ -116,6 +121,10 @@
 
 .sidebar-container .teaser p {
   padding: 12px;
+}
+
+.sidebar-container > div.teaser a:hover p {
+  color: var(--yxt-color-brand-hover);
 }
 
 .sidebar-container .teaser img {

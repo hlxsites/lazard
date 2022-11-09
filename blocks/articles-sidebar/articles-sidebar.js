@@ -63,16 +63,18 @@ async function teaserCard(content) {
   const page = pages[0];
   if (page) {
     content.innerHTML = `
-        <a href="${page.path}"><h3>${page.title}</h3></a>
-        <img src="${page.image}" alt="Image symbolising title ${page.title}" />
-        <p>${page.subtitle}</p>
+        <a href="${page.path}">
+          <h3>${page.title}</h3>
+          <img src="${page.image}" alt="Image symbolising title ${page.title}" />
+          <p>${page.subtitle}</p>
+        </a>
       `;
   }
 }
 
 function downloadCard(content) {
   const link = content.querySelector('a');
-  link.setAttribute("target", "_blank");
+  link.setAttribute('target', '_blank');
   content.append(link);
   content.querySelector('.button-container').remove();
   link.innerHTML = '';
