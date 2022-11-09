@@ -123,6 +123,12 @@
   padding: 16px 16px 30px;
 }
 
+.article .sidebar-container > div p {
+  font-family: var(--sans-font-family);
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
 .sidebar-container > div.teaser a:hover p {
   color: var(--yxt-color-brand-hover);
 }
@@ -159,12 +165,6 @@
 
 .sidebar-container .author .text {
   grid-area: description;
-}
-
-.article .sidebar-container > div p {
-  font-family: var(--sans-font-family);
-  font-size: 0.9rem;
-  line-height: 1.2;
 }
 
 @media (min-width: 1200px) {
