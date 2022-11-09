@@ -84,7 +84,7 @@ export default async function decorate(block) {
   const links = parseCardLinks(block);
   const pages = await lookupPages(links.flat(), 'main');
 
-  console.log(pages);
+  // console.log(pages);
   // console.log(getPage(links[0][0], pages));
 
   // const adiv = document.createElement('div');
