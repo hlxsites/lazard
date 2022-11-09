@@ -1,0 +1,9 @@
+.article main .highlight {
+  background-color: #edf1f4;
+  padding: 2rem;
+  margin: 45px 0;
+}
+
+.article main .highlight.light {
+  background-color: #ebf3e5;
+}
