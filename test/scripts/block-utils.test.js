@@ -6,6 +6,7 @@ import { expect } from '@esm-bundle/chai';
 import sinon from 'sinon';
 
 let blockUtils;
+// eslint-disable-next-line
 let scripts;
 
 document.body.innerHTML = await readFile({ path: './dummy.html' });
