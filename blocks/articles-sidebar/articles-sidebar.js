@@ -1,5 +1,5 @@
-import { getArticlesIndex } from '../../scripts/scripts.js';
-import { addChevronToLinks, decorateIcons } from '../../scripts/lib-franklin.js';
+import { addChevronToLinks, getArticlesIndex } from '../../scripts/scripts.js';
+import { decorateIcons } from '../../scripts/lib-franklin.js';
 
 export default async function decorate($block) {
   await getArticlesIndex('main');

@@ -1,4 +1,5 @@
-import { addChevronToLinks, decorateIcons } from '../../scripts/lib-franklin.js';
+import { decorateIcons } from '../../scripts/lib-franklin.js';
+import { addChevronToLinks } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
   const cols = [...block.firstElementChild.children];

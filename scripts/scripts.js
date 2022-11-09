@@ -147,6 +147,19 @@ export function URLtoPath(url) {
 }
 
 /**
+ * Adds a chevron to a group of link
+ * @param group The group of link elements
+ */
+export function addChevronToLinks(group) {
+  // Add chevron to links
+  group.forEach(($button) => {
+    const $linkIcon = document.createElement('span');
+    $linkIcon.classList.add('icon', 'icon-chevron-right');
+    $button.append($linkIcon);
+  });
+}
+
+/**
  * loads everything that happens a lot later, without impacting
  * the user experience.
  */
