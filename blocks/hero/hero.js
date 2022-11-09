@@ -1,4 +1,5 @@
-import { decorateIcons, addChevronToLinks } from '../../scripts/lib-franklin.js';
+import { decorateIcons } from '../../scripts/lib-franklin.js';
+import { addChevronToLinks } from '../../scripts/scripts.js';
 
 export default function decorate($block) {
   const $title = $block.querySelector('h1');
