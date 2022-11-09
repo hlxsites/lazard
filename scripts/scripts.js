@@ -1,16 +1,16 @@
 import {
-  sampleRUM,
   buildBlock,
-  loadHeader,
-  loadFooter,
+  decorateBlocks,
   decorateButtons,
   decorateIcons,
   decorateSections,
-  decorateBlocks,
   decorateTemplateAndTheme,
-  waitForLCP,
   loadBlocks,
   loadCSS,
+  loadFooter,
+  loadHeader,
+  sampleRUM,
+  waitForLCP,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
@@ -19,12 +19,27 @@ window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information 
 function buildHeroBlock(main) {
   const h1 = main.querySelector('h1');
   const picture = main.querySelector('picture');
+  const p = main.querySelectorAll('p')[1];
+  const heroCards = main.querySelector('.cards.hero');
   // eslint-disable-next-line no-bitwise
   if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
     const section = document.createElement('div');
-    section.append(buildBlock('hero', { elems: [picture, h1] }));
+    if (p && heroCards) {
+      section.append(buildBlock('hero', { elems: [picture, h1, p, heroCards] }));
+    } else {
+      section.append(buildBlock('hero', { elems: [picture, h1] }));
+    }
     main.prepend(section);
   }
+}
+
+function buildArticleImageCaption(main) {
+  const pictures = main.querySelectorAll('.article picture');
+  pictures.forEach((picture) => {
+    if (picture.parentElement.nextElementSibling && picture.parentElement.nextElementSibling.firstChild.tagName === 'EM') {
+      picture.parentElement.nextElementSibling.classList.add('caption');
+    }
+  });
 }
 
 /**
@@ -34,6 +49,7 @@ function buildHeroBlock(main) {
 function buildAutoBlocks(main) {
   try {
     buildHeroBlock(main);
+    buildArticleImageCaption(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
@@ -74,7 +90,6 @@ async function loadEager(doc) {
 export function addFavIcon(href) {
   const link = document.createElement('link');
   link.rel = 'icon';
-  link.type = 'image/svg+xml';
   link.href = href;
   const existingLink = document.querySelector('head link[rel="icon"]');
   if (existingLink) {
@@ -99,7 +114,7 @@ async function loadLazy(doc) {
   loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
-  addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.svg`);
+  addFavIcon(`${window.hlx.codeBasePath}/icons/favicon.ico`);
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
   sampleRUM.observe(main.querySelectorAll('picture > img'));
@@ -110,7 +125,7 @@ async function loadLazy(doc) {
  * @param {Array} pathnames Collection of paths
  * @param {String} collection ID of collection of indexes
  */
-export async function lookupPages(pathnames, collection) {
+export async function getArticlesIndex(collection) {
   const indexPaths = {
     main: '/query-index.json',
   };
@@ -125,14 +140,21 @@ export async function lookupPages(pathnames, collection) {
     });
     window.pageIndex[collection] = { data: json.data, lookup };
   }
+}
+
+/**
+ * looks up pages from index.
+ */
+export async function lookupPages(pathnames, collection) {
+  await getArticlesIndex(collection);
 
   /* guard for legacy URLs */
   pathnames.forEach((path, i) => {
     if (path.endsWith('/')) pathnames[i] = path.substr(0, path.length - 1);
   });
   const { lookup } = window.pageIndex[collection];
-  const result = pathnames.map((path) => lookup[path]).filter((e) => e);
-  return result;
+  return pathnames.map((path) => lookup[path])
+    .filter((e) => e);
 }
 
 /**
@@ -190,6 +212,19 @@ export function URLtoPath(url) {
  */
 export function limitTextLength(srcText, maxLength) {
   return (srcText.length > maxLength) ? `${srcText.substring(0, maxLength)}...` : srcText;
+}
+
+/**
+ * Adds a chevron to a group of link
+ * @param group The group of link elements
+ */
+export function addChevronToLinks(group) {
+  // Add chevron to links
+  group.forEach(($button) => {
+    const $linkIcon = document.createElement('span');
+    $linkIcon.classList.add('icon', 'icon-chevron-right');
+    $button.append($linkIcon);
+  });
 }
 
 /**

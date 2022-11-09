@@ -7,6 +7,39 @@
     width: 100%;
 }
 
+.columns.investment h2 {
+    font-size: 32px;
+    font-weight: 300;
+}
+
+.columns.investment p {
+    font-family: var(--serif-font-family);
+    font-weight: 400;
+    font-size: 1.6187rem;
+    line-height: 2.3rem;
+}
+
+.columns.investment hr {
+    border: 1px solid white;
+    width: 169px;
+    margin-left: 0;
+}
+
+.columns.investment .button-container {
+    margin: 0;
+}
+
+.columns.investment .button.primary {
+    font-size: 1.1rem;
+    width: 100%;
+    text-align: start;
+    display: flex;
+    margin: 0 0 10px;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 200ms ease-in-out;
+}
+
 @media (min-width: 900px) {
     .columns > div {
         display: flex;
@@ -21,5 +54,10 @@
 
     .columns > div > div:first-of-type {
         margin-left: unset;
+    }
+
+    .columns.investment > div > div:first-child {
+        flex: 2;
+        padding-right: 60px;
     }
 }
