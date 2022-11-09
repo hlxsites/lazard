@@ -72,6 +72,7 @@ async function teaserCard(content) {
 
 function downloadCard(content) {
   const link = content.querySelector('a');
+  link.setAttribute("target", "_blank");
   content.append(link);
   content.querySelector('.button-container').remove();
   link.innerHTML = '';
