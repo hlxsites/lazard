@@ -6,6 +6,8 @@ import { expect } from '@esm-bundle/chai';
 import sinon from 'sinon';
 
 let blockUtils;
+// eslint-disable-next-line
+let scripts;
 
 document.body.innerHTML = await readFile({ path: './dummy.html' });
 document.head.innerHTML = await readFile({ path: './head.html' });
@@ -13,6 +15,7 @@ document.head.innerHTML = await readFile({ path: './head.html' });
 describe('Utils methods', () => {
   before(async () => {
     blockUtils = await import('../../scripts/lib-franklin.js');
+    scripts = await import('../../scripts/scripts.js');
     document.body.innerHTML = await readFile({ path: './body.html' });
   });
 

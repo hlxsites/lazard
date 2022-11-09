@@ -1,5 +1,5 @@
-import { getArticlesIndex, lookupPages } from '../../scripts/scripts.js';
-import { addChevronToLinks, decorateIcons, getMetadata } from '../../scripts/lib-franklin.js';
+import { getArticlesIndex, lookupPages, addChevronToLinks } from '../../scripts/scripts.js';
+import { decorateIcons, getMetadata } from '../../scripts/lib-franklin.js';
 
 function replaceBlockWithAside($block) {
   $block.innerHTML = `
