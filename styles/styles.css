@@ -10,6 +10,13 @@
  * governing permissions and limitations under the License.
  */
 
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/fonts/CormorantGaramond-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
 :root {
   /* colors */
   --link-color: #035fe6;
