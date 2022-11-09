@@ -138,8 +138,9 @@ main .hero .cards.hero .button.primary {
 
 main .hero .cards.hero .button.primary:hover {
     text-decoration: underline;
-    text-decoration-style: dashed;
-    color: var(--yxt-color-brand-primary);
+    text-decoration-style: dotted;
+    text-underline-offset: 6px;
+    color: #1e79b5;
 }
 
 main .hero .orange-wrapper hr {
