@@ -4,6 +4,10 @@
   flex-direction: column;
 }
 
+.article main .sidebar-container {
+  gap: 16px;
+}
+
 .sidebar-container > div {
   background-color: #eef4f4;
   padding: 16px;
@@ -21,7 +25,7 @@
   grid-template:
       'top top'
       'picture title'
-      'picture description' / 2fr 1fr;
+      'picture description' / 1fr 2fr;
   gap: 12px;
 }
 
@@ -41,16 +45,32 @@
   font-size: 1.5rem;
   background-color: #7dbd42;
   margin: 0 0 16px;
-}
-.sidebar-container .download {
-  padding: 0;
+  grid-area: top;
 }
 
-.sidebar-container .download *:not(h3) {
+.sidebar-container > div > a {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  color: var(--yxt-color-investors-link);
+}
+
+.sidebar-container .download {
+  padding: 0;
+  display: grid;
+  grid-template: 'top top' 'pdf text';
+}
+
+.sidebar-container .download > *:not(h3) {
   margin-left: 16px;
   margin-right: 16px;
 }
 
+.sidebar-container .download a.button.primary {
+  background-color: unset;
+  padding: unset;
+  grid-area: pdf;
+}
 
 .sidebar-container .author h3 {
   grid-area: top;
@@ -59,16 +79,42 @@
   font-weight: 500;
 }
 
-.sidebar-container .author .image-container {
+.sidebar-container .author img {
   grid-area: picture;
 }
 
-.sidebar-container .author .button-container {
+.sidebar-container .author .author-name {
+  font-family: var(--sans-font-family);
   grid-area: title;
 }
 
 .sidebar-container > div:last-child h3 {
   margin: 0;
+}
+
+.sidebar-container .teaser {
+  padding: 0;
+}
+
+.sidebar-container > div.teaser a h3 {
+  color: white;
+}
+
+.sidebar-container .teaser a {
+  padding: 12px;
+  background: #5d87a1;
+  color: white;
+}
+
+.sidebar-container .teaser p {
+  padding: 12px;
+}
+
+.sidebar-container .teaser img {
+  max-height: 160px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
 .sidebar-container > div .description {
@@ -90,13 +136,6 @@
   font-weight: 400;
   color: var(--yxt-color-investors-link);
   font-family: var(--serif-font-family);
-}
-
-.sidebar-container > div > a {
-  display: flex;
-  gap: 12px;
-  align-items: baseline;
-  color: var(--yxt-color-investors-link);
 }
 
 .sidebar-container > div > a .icon {

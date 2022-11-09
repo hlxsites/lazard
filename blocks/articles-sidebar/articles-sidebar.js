@@ -1,5 +1,5 @@
 import { getArticlesIndex, lookupPages } from '../../scripts/scripts.js';
-import { addChevronToLinks, decorateIcons } from '../../scripts/lib-franklin.js';
+import { addChevronToLinks, decorateIcons, getMetadata } from '../../scripts/lib-franklin.js';
 
 function replaceBlockWithAside($block) {
   $block.innerHTML = `
@@ -42,11 +42,6 @@ async function handleAutoDataSidebar($block) {
 
   addChevronToLinks([...$block.querySelectorAll('.sidebar-container > div > a')]);
   await decorateIcons($block);
-
-  // set the grid row template according to number of children
-  const sidebarContainer = document.querySelector('.articles-sidebar-container');
-  const sidebarContainerChildren = sidebarContainer.children.length;
-  sidebarContainer.style.gridTemplateRows = `repeat(${sidebarContainerChildren - 1}, auto)`;
 }
 
 async function handleSidebarContentVariation(variation, content) {
@@ -61,6 +56,9 @@ async function handleSidebarContentVariation(variation, content) {
     const title = document.createElement('h3');
     title.textContent = 'Download PDF';
     content.prepend(title);
+    [...content.children].forEach((child) => {
+      if (child.innerHTML.trim() === '') child.remove();
+    });
   } else if (variation === 'teaser') {
     const articleLink = new URL(content.querySelector('.button-container > a').href).pathname;
     const pages = await lookupPages([articleLink], 'main');
@@ -73,13 +71,16 @@ async function handleSidebarContentVariation(variation, content) {
       `;
     }
   } else if (variation === 'author') {
-    const authorTag = document.createElement('h3');
-    authorTag.textContent = 'AUTHOR';
-    content.prepend(authorTag);
-    [...content.children].forEach((child) => {
-      if (child.querySelector('picture')) child.classList.add('image-container');
-      if (child.tagName === 'P' && child.classList.length === 0) child.classList.add('text');
-    });
+    const authorName = getMetadata('article:author');
+    const authorTitle = getMetadata('article:author_title');
+    const authorPic = getMetadata('article:author_thumbnail');
+
+    content.innerHTML = `
+        <h3>AUTHOR</h3>
+        <p class="author-name">${authorName}</p>
+        <img src="${authorPic}" alt="Portrait of ${authorName}" />
+        <p class="text">${authorTitle}</p>
+      `;
   }
 
   return content;
@@ -110,4 +111,9 @@ export default async function decorate($block) {
   } else {
     await handleStaticDataSidebar($block);
   }
+
+  // set the grid row template according to number of children
+  const sidebarContainer = document.querySelector('.articles-sidebar-container');
+  const sidebarContainerChildren = sidebarContainer.children.length;
+  sidebarContainer.style.gridTemplateRows = `repeat(${sidebarContainerChildren - 1}, auto)`;
 }
