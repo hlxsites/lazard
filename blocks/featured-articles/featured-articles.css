@@ -1,13 +1,27 @@
+.featured-articles {
+    font-family: Roboto, "Cormorant Garamond", "Times New Roman", Georgia, serif;
+    font-weight: 300;
+}
+
 .featured-articles>ul {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    grid-gap: 16px;
+    grid-gap: 30px;
 }
 
 .featured-articles-card-body-title a {
-    color: #000;
+    text-decoration: none;
+    font-weight: 300;
+    color: #23283c;
+}
+
+.featured-articles-card-body-subtitle {
+    font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
+    font-weight: 400;
+    font-size: 1rem;
+    color: #4f4f4f;
 }
 
 .featured-articles-card-body-title a:hover {
@@ -26,33 +40,17 @@
     grid-column-start: 1;
     grid-row-end: 2;
     grid-column-end: 4;
-    min-height: 320px;
+    min-height: 360px;
 }
 /* stylelint-enable */
 
 .featured-articles-row-2 {
-    grid-gap: 16px;
-}
-
-.featured-articles-card-body-date {
-    font-size: 12pt;
+    grid-gap: 30px;
+    max-width: 100vw;
 }
 
 .featured-articles .featured-articles-card-body>*:first-child {
     margin-top: 0;
-}
-
-.featured-articles-2nd-row {
-    padding-top: 25px;
-}
-
-.featured-articles-1st-row {
-    display: block;
-}
-
-.featured-articles-1st-row>li {
-    display: block;
-    width: 100%;
 }
 
 .featured-articles>ul>li {
@@ -66,21 +64,47 @@
     box-shadow: -10px 10px 15px #e5e5e5;
 }
 
-
-.featured-articles-row-1 .featured-articles-card-body-title::after{
-    content: ' >';
+.featured-articles-card-body-title {
+    font-size: 1.6rem;
+    word-wrap: break-word;
 }
 
-.featured-articles-row-1 .featured-articles-card-body-date{
-visibility: hidden;
+.featured-articles-row-1 .featured-articles-card-body-title::after {
+    display: inline-block;
+    content: '›';
+    transition: all 1s;
+    position: relative;
+    left: 0;
+}
+
+.featured-articles-row-1 .featured-articles-card-body-title:hover::after {
+    left: 20px;
+}
+
+.featured-articles-card-body-datedescription {
+    font-size: small;
+    color: rgb(156 156 156);
+}
+
+.featured-articles-row-1 .featured-articles-card-body-datedescription {
+    visibility: hidden;
 }
 
 .featured-articles-row-1 .featured-articles-card-image {
-    width: 320px;
-    padding: 25px;
+    width: 480px;
+    padding: 10px;
     float: right;
 }
 
+.featured-articles-card-body-description {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: rgb(0 176 175);
+}
+
+.featured-articles-card-body-date {
+    color: rgb(156 156 156);
+}
 
 .featured-articles-row-2 .featured-articles-card-image {
     position: relative;

@@ -42,30 +42,45 @@ function createCardElement(pagePath, pages) {
   bodyDiv.classList.add('featured-articles-card-body');
   const imageDiv = document.createElement('div');
   imageDiv.classList.add('featured-articles-card-image');
-  const bodyDateParagraph = document.createElement('p');
-  bodyDateParagraph.classList.add('featured-articles-card-body-date');
+  const bodyDatedescriptionParagraph = document.createElement('p');
+  bodyDatedescriptionParagraph.classList.add('featured-articles-card-body-datedescription');
   const bodyTitleParagraph = document.createElement('p');
   bodyTitleParagraph.classList.add('featured-articles-card-body-title');
   const bodySubtitleParagraph = document.createElement('p');
+  bodySubtitleParagraph.classList.add('featured-articles-card-body-subtitle');
+
   const bodyTitleParagraphStrong = document.createElement('strong');
   const bodyTitleLink = document.createElement('a');
+
+  const bodyDateSpan = document.createElement('span');
+  const bodyDatedescriptionSeparator = document.createElement('span');
+  const bodyDescriptionSpan = document.createElement('span');
+
+  bodyDateSpan.classList.add('featured-articles-card-body-date');
+  bodyDescriptionSpan.classList.add('featured-articles-card-body-description');
+
+  bodyDatedescriptionSeparator.innerText = ' | ';
+
+  bodyDatedescriptionParagraph.appendChild(bodyDescriptionSpan);
+  bodyDatedescriptionParagraph.appendChild(bodyDatedescriptionSeparator);
+  bodyDatedescriptionParagraph.appendChild(bodyDateSpan);
+
   bodyTitleParagraphStrong.appendChild(bodyTitleLink);
-  bodyDiv.appendChild(bodyDateParagraph);
+  bodyDiv.appendChild(bodyDatedescriptionParagraph);
   bodyDiv.appendChild(bodyTitleParagraph);
   bodyDiv.appendChild(bodySubtitleParagraph);
   bodyTitleParagraph.appendChild(bodyTitleParagraphStrong);
 
   const page = getPage(pagePath, pages);
 
-  bodyDateParagraph.innerText = `${page.description.toUpperCase()} | ${timestampToMonthYear(parseInt(page.publicationDate, 10))}`;
+  bodyDateSpan.innerText = `${timestampToMonthYear(parseInt(page.publicationDate, 10))}`;
+  bodyDescriptionSpan.innerText = `${page.description}`;
+
   bodySubtitleParagraph.innerText = limitTextLength(
     page.subtitle,
-    120,
+    250,
   );
-  bodyTitleLink.innerText = limitTextLength(
-    page.subtitle,
-    50,
-  );
+  bodyTitleLink.innerText = page.title;
   bodyTitleLink.href = page.path;
 
   const picture = createOptimizedPicture(page.image, '', false, [
@@ -81,33 +96,11 @@ function createCardElement(pagePath, pages) {
 }
 
 export default async function decorate(block) {
+  console.dir(block);
+
   const links = parseCardLinks(block);
   const pages = await lookupPages(links.flat(), 'main');
 
-  // console.log(pages);
-  // console.log(getPage(links[0][0], pages));
-
-  // const adiv = document.createElement('div');
-  // const aul = document.createElement('ul');
-  // adiv.appendChild(aul);
-  // adiv.classList.add('featured-articles', 'featured-articles-1st-row');
-
-  // const bdiv = document.createElement('div');
-  // const bul = document.createElement('ul');
-  // bdiv.appendChild(bul);
-  // bdiv.classList.add('featured-articles', 'featured-articles-2nd-row');
-
-  // aul.appendChild(createCardElement(links[0][0], pages));
-
-  // for (let i = 0; i < links[1].length; i += 1) {
-  //   const path = links[1][i];
-  //   const card = createCardElement(path, pages);
-  //   bul.appendChild(card);
-  // }
-
-  // block.textContent = '';
-  // block.append(adiv);
-  // block.append(bdiv);
   block.textContent = '';
   const articleList = document.createElement('ul');
   for (let i = 0; i < links.length; i += 1) {
