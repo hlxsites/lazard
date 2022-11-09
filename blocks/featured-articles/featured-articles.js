@@ -5,6 +5,13 @@ import {
   URLtoPath,
 } from '../../scripts/scripts.js';
 
+function timestampToMonthYear(timestamp) {
+  const dt = new Date(timestamp * 1000);
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const textMonth = months[dt.getMonth()]
+  return `${textMonth} ${dt.getFullYear()}`
+}
+
 function parseCardLinks(block) {
   const rows = [...block.children];
 
@@ -31,21 +38,25 @@ function getPage(path, pages) {
   return pages.find((p) => p.path === path);
 }
 
-function createCardElement(pagePath, pages, maxSubtitleLength = 40) {
+function createCardElement(pagePath, pages, maxSubtitleLength = 80) {
   const card = document.createElement('div');
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('featured-articles-card-body');
   const imageDiv = document.createElement('div');
-  bodyDiv.classList.add('featured-articles-card-image');
+  imageDiv.classList.add('featured-articles-card-image');
+  const bodyDateParagraph = document.createElement('p');
+  bodyDateParagraph.classList.add('featured-articles-card-body-date')
   const bodyTitleParagraph = document.createElement('p');
   const bodySubtitleParagraph = document.createElement('p');
   const bodyTitleParagraphStrong = document.createElement('strong');
+  bodyDiv.appendChild(bodyDateParagraph);
   bodyDiv.appendChild(bodyTitleParagraph);
   bodyDiv.appendChild(bodySubtitleParagraph);
   bodyTitleParagraph.appendChild(bodyTitleParagraphStrong);
 
   const page = getPage(pagePath, pages);
 
+  bodyDateParagraph.innerText = `INSIGHTS | ${timestampToMonthYear(parseInt(page.publicationDate))}`;
   bodyTitleParagraphStrong.innerText = limitTextLength(
     page.title,
     maxSubtitleLength,
@@ -61,8 +72,8 @@ function createCardElement(pagePath, pages, maxSubtitleLength = 40) {
   ]);
   imageDiv.appendChild(picture);
 
-  card.appendChild(bodyDiv);
   card.appendChild(imageDiv);
+  card.appendChild(bodyDiv);
 
   return card;
 }
@@ -71,7 +82,7 @@ export default async function decorate(block) {
   const links = parseCardLinks(block);
   const pages = await lookupPages(links.flat(), 'main');
 
-  // console.log(pages);
+   console.log(pages);
   // console.log(getPage(links[0][0], pages));
 
   // const adiv = document.createElement('div');
