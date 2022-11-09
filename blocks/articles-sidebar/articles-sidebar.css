@@ -177,6 +177,10 @@
     column-gap: 20px;
   }
 
+  body.article .articles-sidebar-container {
+    column-gap: 90px;
+  }
+
   .articles-sidebar-container > .articles-sidebar-wrapper {
     height: 100%;
     grid-column: 2;

@@ -314,3 +314,24 @@ main .section.highlight {
 .section.light-gray {
   background-color: var(--highlight-background-color);
 }
+
+body.article {
+  font-size: 1.15em;
+  color: #0a0b0a;
+  font-family: var(--serif-font-family);
+}
+
+body.article .default-content-wrapper {
+  line-height: 1.75;
+}
+
+.article h3 {
+  font-weight: 300;
+  font-size: 1.7rem;
+}
+
+.article h4 {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #4f4f4f;
+}
