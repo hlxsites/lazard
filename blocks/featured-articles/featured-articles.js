@@ -7,9 +7,9 @@ import {
 
 function timestampToMonthYear(timestamp) {
   const dt = new Date(timestamp * 1000);
-  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const textMonth = months[dt.getMonth()]
-  return `${textMonth} ${dt.getFullYear()}`
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const textMonth = months[dt.getMonth()];
+  return `${textMonth} ${dt.getFullYear()}`;
 }
 
 function parseCardLinks(block) {
@@ -19,17 +19,15 @@ function parseCardLinks(block) {
   // by two rows with a fixed number of columns: one
   // for the first row, three for the second
   if (
-    rows.length !== 2 ||
-    rows[0].getElementsByTagName('div').length !== 1 ||
-    rows[1].getElementsByTagName('div').length !== 3
+    rows.length !== 2
+    || rows[0].getElementsByTagName('div').length !== 1
+    || rows[1].getElementsByTagName('div').length !== 3
   ) {
     return [];
   }
 
   const bigCard = URLtoPath(rows[0].getElementsByTagName('a')[0].href);
-  const smallCards = Array.from(rows[1].getElementsByTagName('div')).map((c) =>
-    URLtoPath(c.getElementsByTagName('a')[0].href),
-  );
+  const smallCards = Array.from(rows[1].getElementsByTagName('div')).map((c) => URLtoPath(c.getElementsByTagName('a')[0].href));
 
   return [[bigCard], [...smallCards]];
 }
@@ -45,7 +43,7 @@ function createCardElement(pagePath, pages, maxSubtitleLength = 80) {
   const imageDiv = document.createElement('div');
   imageDiv.classList.add('featured-articles-card-image');
   const bodyDateParagraph = document.createElement('p');
-  bodyDateParagraph.classList.add('featured-articles-card-body-date')
+  bodyDateParagraph.classList.add('featured-articles-card-body-date');
   const bodyTitleParagraph = document.createElement('p');
   const bodySubtitleParagraph = document.createElement('p');
   const bodyTitleParagraphStrong = document.createElement('strong');
@@ -56,7 +54,7 @@ function createCardElement(pagePath, pages, maxSubtitleLength = 80) {
 
   const page = getPage(pagePath, pages);
 
-  bodyDateParagraph.innerText = `INSIGHTS | ${timestampToMonthYear(parseInt(page.publicationDate))}`;
+  bodyDateParagraph.innerText = `INSIGHTS | ${timestampToMonthYear(parseInt(page.publicationDate, 10))}`;
   bodyTitleParagraphStrong.innerText = limitTextLength(
     page.title,
     maxSubtitleLength,
@@ -82,7 +80,7 @@ export default async function decorate(block) {
   const links = parseCardLinks(block);
   const pages = await lookupPages(links.flat(), 'main');
 
-   console.log(pages);
+  console.log(pages);
   // console.log(getPage(links[0][0], pages));
 
   // const adiv = document.createElement('div');
@@ -108,11 +106,11 @@ export default async function decorate(block) {
   // block.append(bdiv);
   block.textContent = '';
   const articleList = document.createElement('ul');
-  for (let i = 0; i < links.length; i++) {
-    for (let j = 0; j < links[i].length; j++) {
+  for (let i = 0; i < links.length; i += 1) {
+    for (let j = 0; j < links[i].length; j += 1) {
       const path = links[i][j];
       const cardItem = document.createElement('li');
-      cardItem.classList.add('featured-articles-row-' + (i+1));
+      cardItem.classList.add(`featured-articles-row-${i + 1}`);
       const card = createCardElement(path, pages);
       cardItem.appendChild(card);
       articleList.appendChild(cardItem);
