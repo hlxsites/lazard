@@ -74,11 +74,11 @@
     content: '›';
     transition: all 1s;
     position: relative;
-    left: 0;
+    left: 5px;
 }
 
 .featured-articles-row-1 .featured-articles-card-body-title:hover::after {
-    left: 20px;
+    left: 15px;
 }
 
 .featured-articles-card-body-datedescription {
