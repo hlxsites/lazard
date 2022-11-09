@@ -11,13 +11,18 @@ function parseCardLinks(block) {
   // Featured articles is a specific block made up
   // by two rows with a fixed number of columns: one
   // for the first row, three for the second
-  if (rows.length !== 2 || rows[0].getElementsByTagName('div').length !== 1
-    || rows[1].getElementsByTagName('div').length !== 3) {
+  if (
+    rows.length !== 2 ||
+    rows[0].getElementsByTagName('div').length !== 1 ||
+    rows[1].getElementsByTagName('div').length !== 3
+  ) {
     return [];
   }
 
   const bigCard = URLtoPath(rows[0].getElementsByTagName('a')[0].href);
-  const smallCards = Array.from(rows[1].getElementsByTagName('div')).map((c) => URLtoPath(c.getElementsByTagName('a')[0].href));
+  const smallCards = Array.from(rows[1].getElementsByTagName('div')).map((c) =>
+    URLtoPath(c.getElementsByTagName('a')[0].href),
+  );
 
   return [[bigCard], [...smallCards]];
 }
@@ -27,7 +32,7 @@ function getPage(path, pages) {
 }
 
 function createCardElement(pagePath, pages, maxSubtitleLength = 40) {
-  const cardLi = document.createElement('li');
+  const card = document.createElement('div');
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('featured-articles-card-body');
   const imageDiv = document.createElement('div');
@@ -41,16 +46,25 @@ function createCardElement(pagePath, pages, maxSubtitleLength = 40) {
 
   const page = getPage(pagePath, pages);
 
-  bodyTitleParagraphStrong.innerText = limitTextLength(page.title, maxSubtitleLength);
-  bodySubtitleParagraph.innerText = limitTextLength(page.subtitle, maxSubtitleLength);
+  bodyTitleParagraphStrong.innerText = limitTextLength(
+    page.title,
+    maxSubtitleLength,
+  );
+  bodySubtitleParagraph.innerText = limitTextLength(
+    page.subtitle,
+    maxSubtitleLength,
+  );
 
-  const picture = createOptimizedPicture(page.image, '', false, [{ media: '(min-width: 400px)', width: '2000' }, { width: '750' }]);
+  const picture = createOptimizedPicture(page.image, '', false, [
+    { media: '(min-width: 400px)', width: '2000' },
+    { width: '750' },
+  ]);
   imageDiv.appendChild(picture);
 
-  cardLi.appendChild(bodyDiv);
-  cardLi.appendChild(imageDiv);
+  card.appendChild(bodyDiv);
+  card.appendChild(imageDiv);
 
-  return cardLi;
+  return card;
 }
 
 export default async function decorate(block) {
@@ -60,25 +74,39 @@ export default async function decorate(block) {
   // console.log(pages);
   // console.log(getPage(links[0][0], pages));
 
-  const adiv = document.createElement('div');
-  const aul = document.createElement('ul');
-  adiv.appendChild(aul);
-  adiv.classList.add('featured-articles', 'featured-articles-1st-row');
+  // const adiv = document.createElement('div');
+  // const aul = document.createElement('ul');
+  // adiv.appendChild(aul);
+  // adiv.classList.add('featured-articles', 'featured-articles-1st-row');
 
-  const bdiv = document.createElement('div');
-  const bul = document.createElement('ul');
-  bdiv.appendChild(bul);
-  bdiv.classList.add('featured-articles', 'featured-articles-2nd-row');
+  // const bdiv = document.createElement('div');
+  // const bul = document.createElement('ul');
+  // bdiv.appendChild(bul);
+  // bdiv.classList.add('featured-articles', 'featured-articles-2nd-row');
 
-  aul.appendChild(createCardElement(links[0][0], pages));
+  // aul.appendChild(createCardElement(links[0][0], pages));
 
-  for (let i = 0; i < links[1].length; i += 1) {
-    const path = links[1][i];
-    const card = createCardElement(path, pages);
-    bul.appendChild(card);
+  // for (let i = 0; i < links[1].length; i += 1) {
+  //   const path = links[1][i];
+  //   const card = createCardElement(path, pages);
+  //   bul.appendChild(card);
+  // }
+
+  // block.textContent = '';
+  // block.append(adiv);
+  // block.append(bdiv);
+  block.textContent = '';
+  const articleList = document.createElement('ul');
+  for (let i = 0; i < links.length; i++) {
+    for (let j = 0; j < links[i].length; j++) {
+      const path = links[i][j];
+      const cardItem = document.createElement('li');
+      cardItem.classList.add('featured-articles-row-' + (i+1));
+      const card = createCardElement(path, pages);
+      cardItem.appendChild(card);
+      articleList.appendChild(cardItem);
+    }
   }
 
-  block.textContent = '';
-  block.append(adiv);
-  block.append(bdiv);
+  block.append(articleList);
 }
