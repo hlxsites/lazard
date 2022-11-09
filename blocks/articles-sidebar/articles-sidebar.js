@@ -44,43 +44,60 @@ async function handleAutoDataSidebar($block) {
   await decorateIcons($block);
 }
 
-async function handleSidebarContentVariation(variation, content) {
-  content.classList.add(variation);
+function authorCard(content) {
+  const authorName = getMetadata('article:author');
+  const authorTitle = getMetadata('article:author_title');
+  const authorPic = getMetadata('article:author_thumbnail');
 
-  if (variation === 'download') {
-    const link = content.querySelector('a');
-    content.append(link);
-    content.querySelector('.button-container').remove();
-    link.innerHTML = '';
-    link.append(content.querySelector('picture'));
-    const title = document.createElement('h3');
-    title.textContent = 'Download PDF';
-    content.prepend(title);
-    [...content.children].forEach((child) => {
-      if (child.innerHTML.trim() === '') child.remove();
-    });
-  } else if (variation === 'teaser') {
-    const articleLink = new URL(content.querySelector('.button-container > a').href).pathname;
-    const pages = await lookupPages([articleLink], 'main');
-    const page = pages[0];
-    if (page) {
-      content.innerHTML = `
-        <a href="${page.path}"><h3>${page.title}</h3></a>
-        <img src="${page.image}" alt="Image symbolising title ${page.title}" />
-        <p>${page.subtitle}</p>
-      `;
-    }
-  } else if (variation === 'author') {
-    const authorName = getMetadata('article:author');
-    const authorTitle = getMetadata('article:author_title');
-    const authorPic = getMetadata('article:author_thumbnail');
-
-    content.innerHTML = `
+  content.innerHTML = `
         <h3>AUTHOR</h3>
         <p class="author-name">${authorName}</p>
         <img src="${authorPic}" alt="Portrait of ${authorName}" />
         <p class="text">${authorTitle}</p>
       `;
+}
+
+async function teaserCard(content) {
+  const articleLink = new URL(content.querySelector('.button-container > a').href).pathname;
+  const pages = await lookupPages([articleLink], 'main');
+  const page = pages[0];
+  if (page) {
+    content.innerHTML = `
+        <a href="${page.path}"><h3>${page.title}</h3></a>
+        <img src="${page.image}" alt="Image symbolising title ${page.title}" />
+        <p>${page.subtitle}</p>
+      `;
+  }
+}
+
+function downloadCard(content) {
+  const link = content.querySelector('a');
+  content.append(link);
+  content.querySelector('.button-container').remove();
+  link.innerHTML = '';
+  link.append(content.querySelector('picture'));
+  const title = document.createElement('h3');
+  title.textContent = 'Download PDF';
+  content.prepend(title);
+  [...content.children].forEach((child) => {
+    if (child.innerHTML.trim() === '') child.remove();
+  });
+}
+
+async function handleSidebarContentVariation(variation, content) {
+  content.classList.add(variation);
+
+  // eslint-disable-next-line default-case
+  switch (variation) {
+    case 'download':
+      downloadCard(content);
+      break;
+    case 'teaser':
+      await teaserCard(content);
+      break;
+    case 'author':
+      authorCard(content);
+      break;
   }
 
   return content;

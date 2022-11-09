@@ -106,6 +106,14 @@
   color: white;
 }
 
+.sidebar-container > div p {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--yxt-color-investors-link);
+  font-family: var(--serif-font-family);
+}
+
 .sidebar-container .teaser p {
   padding: 12px;
 }
@@ -128,14 +136,6 @@
   text-transform: uppercase;
   color: var(--yxt-color-investors-link);
   font-size: 0.8rem;
-}
-
-.sidebar-container > div p {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 400;
-  color: var(--yxt-color-investors-link);
-  font-family: var(--serif-font-family);
 }
 
 .sidebar-container > div > a .icon {
