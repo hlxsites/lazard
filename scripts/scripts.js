@@ -141,7 +141,7 @@ export async function lookupPages(pathnames, collection) {
  * @param {boolean} eager load image eager
  * @param {Array} breakpoints breakpoints and corresponding params (eg. width)
  */
- export function createOptimizedPicture(src, alt = '', eager = false, breakpoints = [{ media: '(min-width: 400px)', width: '2000' }, { width: '750' }]) {
+export function createOptimizedPicture(src, alt = '', eager = false, breakpoints = [{ media: '(min-width: 400px)', width: '2000' }, { width: '750' }]) {
   const url = new URL(src, window.location.href);
   const picture = document.createElement('picture');
   const { pathname } = url;
@@ -188,8 +188,8 @@ export function URLtoPath(url) {
  * @param {string} srcText Source text
  * @param {string} maxLength Maximum length
  */
- export function limitTextLength(srcText, maxLength) {
-  return (srcText.length > maxLength) ? srcText.substring(0, maxLength) + "..." : srcText
+export function limitTextLength(srcText, maxLength) {
+  return (srcText.length > maxLength) ? `${srcText.substring(0, maxLength)}...` : srcText;
 }
 
 /**

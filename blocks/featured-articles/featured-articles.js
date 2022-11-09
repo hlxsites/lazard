@@ -2,7 +2,7 @@ import {
   createOptimizedPicture,
   limitTextLength,
   lookupPages,
-  URLtoPath
+  URLtoPath,
 } from '../../scripts/scripts.js';
 
 function parseCardLinks(block) {
@@ -28,57 +28,57 @@ function getPage(path, pages) {
 
 function createCardElement(pagePath, pages, maxSubtitleLength = 40) {
   const cardLi = document.createElement('li');
-  const bodyDiv = document.createElement('div')
-  bodyDiv.classList.add('featured-articles-card-body')
-  const imageDiv = document.createElement('div')
-  bodyDiv.classList.add('featured-articles-card-image')
-  const bodyTitleParagraph = document.createElement('p')
-  const bodySubtitleParagraph = document.createElement('p')
-  const bodyTitleParagraphStrong = document.createElement('strong')
-  bodyDiv.appendChild(bodyTitleParagraph)
-  bodyDiv.appendChild(bodySubtitleParagraph)
-  bodyTitleParagraph.appendChild(bodyTitleParagraphStrong)
+  const bodyDiv = document.createElement('div');
+  bodyDiv.classList.add('featured-articles-card-body');
+  const imageDiv = document.createElement('div');
+  bodyDiv.classList.add('featured-articles-card-image');
+  const bodyTitleParagraph = document.createElement('p');
+  const bodySubtitleParagraph = document.createElement('p');
+  const bodyTitleParagraphStrong = document.createElement('strong');
+  bodyDiv.appendChild(bodyTitleParagraph);
+  bodyDiv.appendChild(bodySubtitleParagraph);
+  bodyTitleParagraph.appendChild(bodyTitleParagraphStrong);
 
   const page = getPage(pagePath, pages);
 
-  bodyTitleParagraphStrong.innerText = limitTextLength(page.title, maxSubtitleLength)
-  bodySubtitleParagraph.innerText = limitTextLength(page.subtitle, maxSubtitleLength)
+  bodyTitleParagraphStrong.innerText = limitTextLength(page.title, maxSubtitleLength);
+  bodySubtitleParagraph.innerText = limitTextLength(page.subtitle, maxSubtitleLength);
 
-  const picture = createOptimizedPicture(page.image, '', false, [{ media: '(min-width: 400px)', width: '2000' }, { width: '750' }])
-  imageDiv.appendChild(picture)
+  const picture = createOptimizedPicture(page.image, '', false, [{ media: '(min-width: 400px)', width: '2000' }, { width: '750' }]);
+  imageDiv.appendChild(picture);
 
-  cardLi.appendChild(bodyDiv)
-  cardLi.appendChild(imageDiv)
+  cardLi.appendChild(bodyDiv);
+  cardLi.appendChild(imageDiv);
 
-  return cardLi
+  return cardLi;
 }
 
 export default async function decorate(block) {
   const links = parseCardLinks(block);
   const pages = await lookupPages(links.flat(), 'main');
 
-  //console.log(pages);
-  //console.log(getPage(links[0][0], pages));
+  // console.log(pages);
+  // console.log(getPage(links[0][0], pages));
 
   const adiv = document.createElement('div');
   const aul = document.createElement('ul');
   adiv.appendChild(aul);
-  adiv.classList.add('featured-articles', 'featured-articles-1st-row')
+  adiv.classList.add('featured-articles', 'featured-articles-1st-row');
 
   const bdiv = document.createElement('div');
   const bul = document.createElement('ul');
   bdiv.appendChild(bul);
-  bdiv.classList.add('featured-articles', 'featured-articles-2nd-row')
+  bdiv.classList.add('featured-articles', 'featured-articles-2nd-row');
 
-  aul.appendChild(createCardElement(links[0][0], pages))
+  aul.appendChild(createCardElement(links[0][0], pages));
 
-  for (let i = 0; i < links[1].length; i++) {
+  for (let i = 0; i < links[1].length; i += 1) {
     const path = links[1][i];
-    const card = createCardElement(path, pages)
-    bul.appendChild(card)
+    const card = createCardElement(path, pages);
+    bul.appendChild(card);
   }
 
   block.textContent = '';
-  block.append(adiv)
-  block.append(bdiv)
+  block.append(adiv);
+  block.append(bdiv);
 }
