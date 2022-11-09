@@ -36,7 +36,7 @@ function getPage(path, pages) {
   return pages.find((p) => p.path === path);
 }
 
-function createCardElement(pagePath, pages, maxSubtitleLength = 80) {
+function createCardElement(pagePath, pages) {
   const card = document.createElement('div');
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('featured-articles-card-body');
@@ -45,8 +45,11 @@ function createCardElement(pagePath, pages, maxSubtitleLength = 80) {
   const bodyDateParagraph = document.createElement('p');
   bodyDateParagraph.classList.add('featured-articles-card-body-date');
   const bodyTitleParagraph = document.createElement('p');
+  bodyTitleParagraph.classList.add('featured-articles-card-body-title');
   const bodySubtitleParagraph = document.createElement('p');
   const bodyTitleParagraphStrong = document.createElement('strong');
+  const bodyTitleLink = document.createElement('a');
+  bodyTitleParagraphStrong.appendChild(bodyTitleLink);
   bodyDiv.appendChild(bodyDateParagraph);
   bodyDiv.appendChild(bodyTitleParagraph);
   bodyDiv.appendChild(bodySubtitleParagraph);
@@ -54,15 +57,16 @@ function createCardElement(pagePath, pages, maxSubtitleLength = 80) {
 
   const page = getPage(pagePath, pages);
 
-  bodyDateParagraph.innerText = `INSIGHTS | ${timestampToMonthYear(parseInt(page.publicationDate, 10))}`;
-  bodyTitleParagraphStrong.innerText = limitTextLength(
-    page.title,
-    maxSubtitleLength,
-  );
+  bodyDateParagraph.innerText = `${page.description.toUpperCase()} | ${timestampToMonthYear(parseInt(page.publicationDate, 10))}`;
   bodySubtitleParagraph.innerText = limitTextLength(
     page.subtitle,
-    maxSubtitleLength,
+    120,
   );
+  bodyTitleLink.innerText = limitTextLength(
+    page.subtitle,
+    50,
+  );
+  bodyTitleLink.href = page.path;
 
   const picture = createOptimizedPicture(page.image, '', false, [
     { media: '(min-width: 400px)', width: '2000' },
