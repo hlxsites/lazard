@@ -52,9 +52,13 @@ function authorCard(content) {
   content.innerHTML = `
         <h3>AUTHOR</h3>
         <p class="author-name">${authorName}</p>
-        <img src="${authorPic}" alt="Portrait of ${authorName}" />
+        ${authorPic !== '' ? `<img src="${authorPic}" alt="Portrait of ${authorName}" />` : '<p></p>'}
         <p class="text">${authorTitle}</p>
       `;
+
+  if (authorTitle === '' && authorPic === '') {
+    content.style.gridTemplate = "'top top' 'title title'";
+  }
 }
 
 async function teaserCard(content) {
