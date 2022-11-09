@@ -36,7 +36,7 @@ function buildHeroBlock(main) {
 function buildArticleImageCaption(main) {
   const pictures = main.querySelectorAll('.article picture');
   pictures.forEach((picture) => {
-    if (picture.parentElement.nextElementSibling && 'EM' === picture.parentElement.nextElementSibling.firstChild.tagName) {
+    if (picture.parentElement.nextElementSibling && picture.parentElement.nextElementSibling.firstChild.tagName === 'EM') {
       picture.parentElement.nextElementSibling.classList.add('caption');
     }
   });

@@ -143,18 +143,23 @@ h6 {
 h1 {
   font-size: var(--heading-font-size-xxl);
 }
+
 h2 {
   font-size: var(--heading-font-size-xl);
 }
+
 h3 {
   font-size: var(--heading-font-size-l);
 }
+
 h4 {
   font-size: var(--heading-font-size-m);
 }
+
 h5 {
   font-size: var(--heading-font-size-s);
 }
+
 h6 {
   font-size: var(--heading-font-size-xs);
 }
@@ -378,7 +383,7 @@ body.article h4 {
 body.article .caption {
   font-size: 0.8rem;
   line-height: 1rem;
-  font-family: 'Roboto', sans-serif;
+  font-family: Roboto, sans-serif;
   margin: 1rem 0 2.5rem;
 }
 
