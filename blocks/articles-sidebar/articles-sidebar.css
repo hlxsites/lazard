@@ -51,7 +51,7 @@
   color: white;
   font-weight: 400;
   font-size: 1.5rem;
-  background-color: #7dbd42;
+  background-color: #5d87a1;
   margin: 0 0 16px;
   grid-area: top;
 }
@@ -67,6 +67,7 @@
   padding: 0;
   display: grid;
   grid-template: 'top top' 'pdf text';
+  border-bottom: #5d87a1 solid 2px;
 }
 
 .sidebar-container .download > *:not(h3) {
