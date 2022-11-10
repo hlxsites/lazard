@@ -73,7 +73,7 @@
 .featured-articles-row-1 .featured-articles-card-body-title::after {
     display: inline-block;
     content: '›';
-    transition: all 1s;
+    transition: all 0.5s;
     position: relative;
     left: 5px;
 }
