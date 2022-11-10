@@ -62,7 +62,7 @@ function authorCard(content) {
 }
 
 async function teaserCard(content) {
-  const articleLink = new URL(content.querySelector('.button-container > a').href).pathname;
+  const articleLink = new URL(content.querySelector('a').href).pathname;
   const pages = await lookupPages([articleLink], 'main');
   const page = pages[0];
   if (page) {
