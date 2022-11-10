@@ -56,6 +56,16 @@ function buildAutoBlocks(main) {
   }
 }
 
+function addHRBelowTitles(main) {
+  const h2All = main.querySelectorAll('.section.highlight-gray h2');
+  if (h2All) {
+    h2All.forEach((h2) => {
+      const hr = document.createElement('hr');
+      h2.parentNode.insertBefore(hr, h2.nextSibling);
+    });
+  }
+}
+
 /**
  * Decorates the main element.
  * @param {Element} main The main element
@@ -67,6 +77,7 @@ export function decorateMain(main) {
   decorateIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  addHRBelowTitles(main);
   decorateBlocks(main);
 }
 
