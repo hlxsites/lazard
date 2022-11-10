@@ -36,26 +36,13 @@ function getPage(path, pages) {
   return pages.find((p) => p.path === path);
 }
 
-function createCardElement(pagePath, pages) {
-  const card = document.createElement('div');
-  const bodyDiv = document.createElement('div');
-  bodyDiv.classList.add('featured-articles-card-body');
-  const imageDiv = document.createElement('div');
-  imageDiv.classList.add('featured-articles-card-image');
+function createCardBodyDatedescription(page) {
   const bodyDatedescriptionParagraph = document.createElement('p');
-  bodyDatedescriptionParagraph.classList.add('featured-articles-card-body-datedescription');
-  const bodyTitleParagraph = document.createElement('p');
-  bodyTitleParagraph.classList.add('featured-articles-card-body-title');
-  const bodySubtitleParagraph = document.createElement('p');
-  bodySubtitleParagraph.classList.add('featured-articles-card-body-subtitle');
-
-  const bodyTitleParagraphStrong = document.createElement('strong');
-  const bodyTitleLink = document.createElement('a');
-
   const bodyDateSpan = document.createElement('span');
   const bodyDatedescriptionSeparator = document.createElement('span');
   const bodyDescriptionSpan = document.createElement('span');
 
+  bodyDatedescriptionParagraph.classList.add('featured-articles-card-body-datedescription');
   bodyDateSpan.classList.add('featured-articles-card-body-date');
   bodyDescriptionSpan.classList.add('featured-articles-card-body-description');
 
@@ -65,30 +52,64 @@ function createCardElement(pagePath, pages) {
   bodyDatedescriptionParagraph.appendChild(bodyDatedescriptionSeparator);
   bodyDatedescriptionParagraph.appendChild(bodyDateSpan);
 
-  bodyTitleParagraphStrong.appendChild(bodyTitleLink);
-  bodyDiv.appendChild(bodyDatedescriptionParagraph);
-  bodyDiv.appendChild(bodyTitleParagraph);
-  bodyDiv.appendChild(bodySubtitleParagraph);
-  bodyTitleParagraph.appendChild(bodyTitleParagraphStrong);
-
-  const page = getPage(pagePath, pages);
-
   bodyDateSpan.innerText = `${timestampToMonthYear(parseInt(page.publicationDate, 10))}`;
   bodyDescriptionSpan.innerText = `${page.description}`;
+
+  return bodyDatedescriptionParagraph;
+}
+
+function createCardBodyTitle(page) {
+  const bodyTitleParagraph = document.createElement('p');
+  const bodyTitleParagraphStrong = document.createElement('strong');
+  const bodyTitleLink = document.createElement('a');
+
+  bodyTitleParagraph.classList.add('featured-articles-card-body-title');
+
+  bodyTitleParagraphStrong.appendChild(bodyTitleLink);
+  bodyTitleParagraph.appendChild(bodyTitleParagraphStrong);
+
+  bodyTitleLink.innerText = page.title;
+  bodyTitleLink.href = page.path;
+
+  return bodyTitleParagraph;
+}
+
+function createCardBodySubtitle(page) {
+  const bodySubtitleParagraph = document.createElement('p');
+  bodySubtitleParagraph.classList.add('featured-articles-card-body-subtitle');
 
   bodySubtitleParagraph.innerText = limitTextLength(
     page.subtitle,
     250,
   );
-  bodyTitleLink.innerText = page.title;
-  bodyTitleLink.href = page.path;
+
+  return bodySubtitleParagraph;
+}
+
+function createCardElement(pagePath, pages) {
+  const page = getPage(pagePath, pages);
+
+  const card = document.createElement('div');
+  const bodyDiv = document.createElement('div');
+  const imageDiv = document.createElement('div');
+
+  bodyDiv.classList.add('featured-articles-card-body');
+  imageDiv.classList.add('featured-articles-card-image');
+
+  const bodyDatedescriptionParagraph = createCardBodyDatedescription(page);
+  const bodyTitleParagraph = createCardBodyTitle(page);
+  const bodySubtitleParagraph = createCardBodySubtitle(page);
+
+  bodyDiv.appendChild(bodyDatedescriptionParagraph);
+  bodyDiv.appendChild(bodyTitleParagraph);
+  bodyDiv.appendChild(bodySubtitleParagraph);
 
   const picture = createOptimizedPicture(page.image, '', false, [
     { media: '(min-width: 400px)', width: '2000' },
     { width: '750' },
   ]);
-  imageDiv.appendChild(picture);
 
+  imageDiv.appendChild(picture);
   card.appendChild(imageDiv);
   card.appendChild(bodyDiv);
 
