@@ -16,6 +16,38 @@ import {
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
 
+/**
+ * Sanitizes a name for use as class name.
+ * @param {string} name The unsanitized name
+ * @returns {string} The class name
+ */
+ export function toClassName(name) {
+  return name && typeof name === 'string'
+    ? name.toLowerCase().replace(/[^0-9a-z]/gi, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
+    : '';
+}
+
+/*
+ * Sanitizes a name for use as a js property name.
+ * @param {string} name The unsanitized name
+ * @returns {string} The camelCased name
+ */
+export function toCamelCase(name) {
+  return toClassName(name).replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+}
+
+/**
+ * Retrieves the content of metadata tags.
+ * @param {string} name The metadata name (or property)
+ * @returns {string} The metadata value(s)
+ */
+ export function getMetadata(name) {
+  const attr = name && name.includes(':') ? 'property' : 'name';
+  const meta = [...document.head.querySelectorAll(`meta[${attr}="${name}"]`)].map((m) => m.content).join(', ');  
+  return meta || null;
+}
+
+
 function buildHeroBlock(main) {
   const h1 = main.querySelector('h1');
   const picture = main.querySelector('picture');
@@ -75,6 +107,7 @@ export function decorateMain(main) {
  */
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
+  await decorateTesting();
   decorateTemplateAndTheme();
   const main = doc.querySelector('main');
   if (main) {
@@ -241,6 +274,217 @@ async function loadPage() {
   await loadEager(document);
   await loadLazy(document);
   loadDelayed();
+  if (window.location.hostname.endsWith('hlx.page') || window.location.hostname === ('localhost')) {
+    import('../tools/preview/preview.js');
+  }
 }
 
 loadPage();
+
+/**
+ * Gets the experiment name, if any for the page based on env, useragent, queyr params
+ * @returns {string} experimentid
+ */
+ export function getExperiment() {
+  let experiment = toClassName(getMetadata('experiment'));
+
+  if (navigator.userAgent.match(/bot|crawl|spider/i)) {
+    experiment = '';
+    // reason = 'bot detected';
+  }
+
+  const usp = new URLSearchParams(window.location.search);
+  if (usp.has('experiment')) {
+    [experiment] = usp.get('experiment').split('/');
+  }
+
+  return experiment;
+}
+/**
+ * Gets experiment config from the manifest
+ * and transforms it to more easily consumable structure.
+ *
+ * the manifest consists of two sheets "settings" and "experiences"
+ *
+ * "settings" is applicable to the entire test and contains information
+ * like "Audience", "Status" or "Blocks".
+ *
+ * "experience" hosts the experiences in columns, consisting of:
+ * a "Percentage Split", "Label" and a set of "Pages".
+ *
+ *
+ * @param {string} experimentId
+ * @returns {object} containing the experiment manifest
+ */
+export async function getExperimentConfig(experimentId) {
+  const instantExperiment = getMetadata('instant-experiment');
+  if (instantExperiment) {
+    const config = {
+      experimentName: `Instant Experiment: ${experimentId}`,
+      audience: '',
+      status: 'Active',
+      id: experimentId,
+      variants: {},
+      variantNames: [],
+    };
+
+    const pages = instantExperiment.split(',').map((p) => new URL(p.trim()).pathname);
+    const evenSplit = 1 / (pages.length + 1);
+
+    config.variantNames.push('control');
+    config.variants.control = {
+      percentageSplit: '',
+      pages: [window.location.pathname],
+      blocks: [],
+      label: 'Control',
+    };
+
+    pages.forEach((page, i) => {
+      const vname = `challenger-${i + 1}`;
+      config.variantNames.push(vname);
+      config.variants[vname] = {
+        percentageSplit: `${evenSplit}`,
+        pages: [page],
+        label: `Challenger ${i + 1}`,
+      };
+    });
+
+    return (config);
+  }
+  return null;
+}
+
+/**
+ * Replaces element with content from path
+ * @param {string} path
+ * @param {HTMLElement} element
+ */
+async function replaceInner(path, element) {
+  const plainPath = `${path}.plain.html`;
+  try {
+    const resp = await fetch(plainPath);
+    const html = await resp.text();
+    element.innerHTML = html;
+  } catch (e) {
+    console.log(`error loading experiment content: ${plainPath}`, e);
+  }
+  return null;
+}
+
+/**
+ * this is an extensible stub to take on audience mappings
+ * @param {string} audience
+ * @return {boolean} is member of this audience
+ */
+
+function checkExperimentAudience(audience) {
+  if (audience === 'mobile') {
+    return window.innerWidth < 600;
+  }
+  if (audience === 'desktop') {
+    return window.innerWidth > 600;
+  }
+  return true;
+}
+
+/**
+ * gets the variant id that this visitor has been assigned to if any
+ * @param {string} experimentId
+ * @return {string} assigned variant or empty string if none set
+ */
+
+function getLastExperimentVariant(experimentId) {
+  console.log('get last experiment', experimentId);
+  const experimentsStr = localStorage.getItem('hlx-experiments');
+  if (experimentsStr) {
+    const experiments = JSON.parse(experimentsStr);
+    if (experiments[experimentId]) {
+      return experiments[experimentId].variant;
+    }
+  }
+  return '';
+}
+
+/**
+ * sets/updates the variant id that is assigned to this visitor,
+ * also cleans up old variant ids
+ * @param {string} experimentId
+ * @param {variant} variant
+ */
+
+function setLastExperimentVariant(experimentId, variant) {
+  const experimentsStr = localStorage.getItem('hlx-experiments');
+  const experiments = experimentsStr ? JSON.parse(experimentsStr) : {};
+
+  const now = new Date();
+  const expKeys = Object.keys(experiments);
+  expKeys.forEach((key) => {
+    const date = new Date(experiments[key].date);
+    if (now - date > (1000 * 86400 * 30)) {
+      delete experiments[key];
+    }
+  });
+  const [date] = now.toISOString().split('T');
+
+  experiments[experimentId] = { variant, date };
+  localStorage.setItem('hlx-experiments', JSON.stringify(experiments));
+}
+
+/**
+ * checks if a test is active on this page and if so executes the test
+ */
+async function decorateTesting() {  
+  try {
+    const experiment = getExperiment();
+    if (!experiment) {
+      return;
+    }
+
+    const usp = new URLSearchParams(window.location.search);
+    const [forcedExperiment, forcedVariant] = usp.get('experiment') ? usp.get('experiment').split('/') : [];
+    //const mode = usp.get('mode') || 'franklin';
+    const config = await getExperimentConfig(experiment);
+    console.log(config);
+    if (toCamelCase(config.status) === 'active' || forcedExperiment) {
+      config.run = forcedExperiment || checkExperimentAudience(toClassName(config.audience));
+      console.log('run', config.run, config.audience);
+
+      window.hlx = window.hlx || {};
+      window.hlx.experiment = config;
+      if (config.run) {
+        const forced = forcedVariant || getLastExperimentVariant(config.id);
+        if (forced && config.variantNames.includes(forced)) {
+          config.selectedVariant = forced;
+        } else {
+          let random = Math.random();
+          let i = config.variantNames.length;
+          while (random > 0 && i > 0) {
+            i -= 1;
+            console.log(random, i);
+            random -= +config.variants[config.variantNames[i]].percentageSplit;
+          }
+          config.selectedVariant = config.variantNames[i];
+        }
+        setLastExperimentVariant(config.id, config.selectedVariant);
+        sampleRUM('experiment', { source: config.id, target: config.selectedVariant });
+        console.log(`running experiment (${window.hlx.experiment.id}) -> ${window.hlx.experiment.selectedVariant}`);
+        if (config.selectedVariant !== 'control') {
+          const currentPath = window.location.pathname;
+          const pageIndex = config.variants.control.pages.indexOf(currentPath);
+          console.log(pageIndex, config.variants.control.pages, currentPath);
+          if (pageIndex >= 0) {
+            const page = config.variants[config.selectedVariant].pages[pageIndex];
+            if (page) {
+              const experimentPath = new URL(page, window.location.href).pathname.split('.')[0];
+              if (experimentPath && experimentPath !== currentPath) {
+                await replaceInner(experimentPath, document.querySelector('main'));
+              }
+            }
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.log('error testing', e);
+  }
+}
