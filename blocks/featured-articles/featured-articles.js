@@ -96,8 +96,6 @@ function createCardElement(pagePath, pages) {
 }
 
 export default async function decorate(block) {
-  console.dir(block);
-
   const links = parseCardLinks(block);
   const pages = await lookupPages(links.flat(), 'main');
 
