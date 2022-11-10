@@ -17,13 +17,6 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: Roboto;
-  src: url("/fonts/Roboto-Light.ttf") format('truetype');
-  font-weight: 300;
-  font-display: swap;
-}
-
 :root {
   /* colors */
   --link-color: #035fe6;
