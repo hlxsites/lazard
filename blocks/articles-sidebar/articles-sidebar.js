@@ -62,7 +62,7 @@ function authorCard(content) {
 }
 
 async function teaserCard(content) {
-  const articleLink = new URL(content.querySelector('.button-container > a').href).pathname;
+  const articleLink = new URL(content.querySelector('a').href).pathname;
   const pages = await lookupPages([articleLink], 'main');
   const page = pages[0];
   if (page) {
@@ -80,7 +80,10 @@ function downloadCard(content) {
   const link = content.querySelector('a');
   link.setAttribute('target', '_blank');
   content.append(link);
-  content.querySelector('.button-container').remove();
+  const button = content.querySelector('.button-container');
+  if (button) {
+    button.remove();
+  }
   link.innerHTML = '';
   link.append(content.querySelector('picture'));
   const title = document.createElement('h3');

@@ -78,7 +78,7 @@
   margin-top: 16px;
 }
 
-.sidebar-container .download a.button.primary {
+.sidebar-container .download a {
   background-color: unset;
   padding: unset;
   grid-area: pdf;
