@@ -20,6 +20,14 @@
   margin: 0 0 12px;
 }
 
+.sidebar-container > div p {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--yxt-color-investors-link);
+  font-family: var(--serif-font-family);
+}
+
 .sidebar-container .author {
   display: grid;
   grid-template:
@@ -66,6 +74,10 @@
   margin-right: 16px;
 }
 
+.sidebar-container .download > p {
+  margin-top: 16px;
+}
+
 .sidebar-container .download a {
   background-color: unset;
   padding: unset;
@@ -109,14 +121,6 @@
   padding: 12px;
   background: #5d87a1;
   color: white;
-}
-
-.sidebar-container > div p {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 400;
-  color: var(--yxt-color-investors-link);
-  font-family: var(--serif-font-family);
 }
 
 .sidebar-container .teaser p {
