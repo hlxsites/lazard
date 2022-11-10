@@ -1,5 +1,5 @@
 .featured-articles {
-    font-family: Roboto, "Cormorant Garamond", "Times New Roman", Georgia, serif;
+    font-family: Roboto, "Cormorant Garamond", "Times New Roman", Georgia, var(--sans-font-family);
     font-weight: 300;
 }
 
@@ -19,7 +19,7 @@
 }
 
 .featured-articles-card-body-subtitle {
-    font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
+    font-family: "Cormorant Garamond", "Times New Roman", Georgia, var(--sans-font-family);
     font-weight: 400;
     font-size: 1rem;
     color: #4f4f4f;
