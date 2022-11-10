@@ -66,6 +66,10 @@
   margin-right: 16px;
 }
 
+.sidebar-container .download > p {
+  margin-top: 16px;
+}
+
 .sidebar-container .download a.button.primary {
   background-color: unset;
   padding: unset;
