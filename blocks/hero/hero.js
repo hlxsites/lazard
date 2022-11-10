@@ -1,4 +1,4 @@
-import { decorateIcons } from '../../scripts/lib-franklin.js';
+import { createOptimizedPicture, decorateIcons } from '../../scripts/lib-franklin.js';
 import { addChevronToLinks } from '../../scripts/scripts.js';
 
 function decorateArticleHero($block) {
@@ -43,6 +43,16 @@ function decorateHomePageHero($block) {
 
     const $hr = document.createElement('hr');
     $rest.insertBefore($hr, $image);
+
+    const picture = $card.querySelector('picture');
+    const imgSrc = picture.querySelector('img').src;
+    const imgAlt = picture.querySelector('img').alt;
+    const optimizedPic = createOptimizedPicture(imgSrc, imgAlt, false, [
+      { media: '(min-width: 400px)', width: '2000' },
+      { media: '(min-width: 150px)', width: '400' },
+      { width: '150' },
+    ]);
+    picture.replaceWith(optimizedPic);
   });
 
   decorateIcons($block);

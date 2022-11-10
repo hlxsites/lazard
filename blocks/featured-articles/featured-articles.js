@@ -1,5 +1,4 @@
 import {
-  createOptimizedPicture,
   latestPages,
   limitTextLength,
   lookupPages,
@@ -8,6 +7,7 @@ import {
 
 import {
   readBlockConfig,
+  createOptimizedPicture,
 } from '../../scripts/lib-franklin.js';
 
 function timestampToMonthYear(timestamp) {
