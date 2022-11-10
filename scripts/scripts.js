@@ -16,8 +16,6 @@ import {
   getMetadata,
 } from './lib-franklin.js';
 
-import { getExperimentConfig } from '../tools/preview/preview.js';
-
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
 
@@ -39,6 +37,61 @@ export function getExperiment() {
   }
 
   return experiment;
+}
+
+/**
+ * Gets experiment config from the manifest
+ * and transforms it to more easily consumable structure.
+ *
+ * the manifest consists of two sheets "settings" and "experiences"
+ *
+ * "settings" is applicable to the entire test and contains information
+ * like "Audience", "Status" or "Blocks".
+ *
+ * "experience" hosts the experiences in columns, consisting of:
+ * a "Percentage Split", "Label" and a set of "Pages".
+ *
+ *
+ * @param {string} experimentId
+ * @returns {object} containing the experiment manifest
+ */
+// eslint-disable-next-line import/prefer-default-export
+export async function getExperimentConfig(experimentId) {
+  const instantExperiment = getMetadata('instant-experiment');
+  if (instantExperiment) {
+    const config = {
+      experimentName: `Instant Experiment: ${experimentId}`,
+      audience: '',
+      status: 'Active',
+      id: experimentId,
+      variants: {},
+      variantNames: [],
+    };
+
+    const pages = instantExperiment.split(',').map((p) => new URL(p.trim()).pathname);
+    const evenSplit = 1 / (pages.length + 1);
+
+    config.variantNames.push('control');
+    config.variants.control = {
+      percentageSplit: '',
+      pages: [window.location.pathname],
+      blocks: [],
+      label: 'Control',
+    };
+
+    pages.forEach((page, i) => {
+      const vname = `challenger-${i + 1}`;
+      config.variantNames.push(vname);
+      config.variants[vname] = {
+        percentageSplit: `${evenSplit}`,
+        pages: [page],
+        label: `Challenger ${i + 1}`,
+      };
+    });
+
+    return (config);
+  }
+  return null;
 }
 
 function buildHeroBlock(main) {
@@ -413,6 +466,7 @@ async function loadPage() {
   await loadLazy(document);
   loadDelayed();
   if (window.location.hostname.endsWith('hlx.page') || window.location.hostname === ('localhost')) {
+    // eslint-disable-next-line import/no-cycle
     import('../tools/preview/preview.js');
   }
 }

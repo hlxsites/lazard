@@ -17,6 +17,9 @@ import {
   getMetadata,
 } from '../../scripts/lib-franklin.js';
 
+// eslint-disable-next-line import/no-cycle
+import { getExperimentConfig } from '../../scripts/scripts.js';
+
 const percentformat = new Intl.NumberFormat('en-US', { style: 'percent', maximumSignificantDigits: 2 });
 const countformat = new Intl.NumberFormat('en-US', { maximumSignificantDigits: 2 });
 const significanceformat = {
@@ -44,61 +47,6 @@ const bigcountformat = {
     return countformat.format(value);
   },
 };
-
-/**
- * Gets experiment config from the manifest
- * and transforms it to more easily consumable structure.
- *
- * the manifest consists of two sheets "settings" and "experiences"
- *
- * "settings" is applicable to the entire test and contains information
- * like "Audience", "Status" or "Blocks".
- *
- * "experience" hosts the experiences in columns, consisting of:
- * a "Percentage Split", "Label" and a set of "Pages".
- *
- *
- * @param {string} experimentId
- * @returns {object} containing the experiment manifest
- */
-// eslint-disable-next-line import/prefer-default-export
-export async function getExperimentConfig(experimentId) {
-  const instantExperiment = getMetadata('instant-experiment');
-  if (instantExperiment) {
-    const config = {
-      experimentName: `Instant Experiment: ${experimentId}`,
-      audience: '',
-      status: 'Active',
-      id: experimentId,
-      variants: {},
-      variantNames: [],
-    };
-
-    const pages = instantExperiment.split(',').map((p) => new URL(p.trim()).pathname);
-    const evenSplit = 1 / (pages.length + 1);
-
-    config.variantNames.push('control');
-    config.variants.control = {
-      percentageSplit: '',
-      pages: [window.location.pathname],
-      blocks: [],
-      label: 'Control',
-    };
-
-    pages.forEach((page, i) => {
-      const vname = `challenger-${i + 1}`;
-      config.variantNames.push(vname);
-      config.variants[vname] = {
-        percentageSplit: `${evenSplit}`,
-        pages: [page],
-        label: `Challenger ${i + 1}`,
-      };
-    });
-
-    return (config);
-  }
-  return null;
-}
 
 /**
  * Create Badge if a Page is enlisted in a Helix Experiment
