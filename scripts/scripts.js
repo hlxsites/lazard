@@ -153,6 +153,14 @@ export async function getArticlesIndex(collection) {
   }
 }
 
+export async function latestPages(count, collection) {
+  await getArticlesIndex(collection);
+
+  return window.pageIndex[collection].data
+    .sort((a, b) => a.lastModified < b.lastModified)
+    .slice(0, count);
+}
+
 /**
  * looks up pages from index.
  */

@@ -1,9 +1,14 @@
 import {
   createOptimizedPicture,
+  latestPages,
   limitTextLength,
   lookupPages,
   URLtoPath,
 } from '../../scripts/scripts.js';
+
+import {
+  readBlockConfig,
+} from '../../scripts/lib-franklin.js';
 
 function timestampToMonthYear(timestamp) {
   const dt = new Date(timestamp * 1000);
@@ -32,7 +37,7 @@ function parseCardLinks(block) {
   return [[bigCard], [...smallCards]];
 }
 
-function getPage(path, pages) {
+function getPageFromPath(path, pages) {
   return pages.find((p) => p.path === path);
 }
 
@@ -86,9 +91,7 @@ function createCardBodySubtitle(page) {
   return bodySubtitleParagraph;
 }
 
-function createCardElement(pagePath, pages) {
-  const page = getPage(pagePath, pages);
-
+function createCardElement(page) {
   const card = document.createElement('div');
   const bodyDiv = document.createElement('div');
   const imageDiv = document.createElement('div');
@@ -116,7 +119,38 @@ function createCardElement(pagePath, pages) {
   return card;
 }
 
-export default async function decorate(block) {
+async function decorateWithAutoData(block) {
+  const cfg = readBlockConfig(block);
+  const entries = parseInt(cfg.entries, 10);
+  const pages = await latestPages(entries, 'main');
+
+  block.textContent = '';
+  const articleList = document.createElement('ul');
+
+  articleList.classList.add('featured-articles-auto-data');
+
+  for (let i = 0; i < pages.length; i += 1) {
+    const page = pages[i];
+    const cardItem = document.createElement('li');
+    if (i > 0) {
+      cardItem.classList.add('featured-articles-row-2', 'featured-articles-row-2-auto-data');
+    } else {
+      cardItem.classList.add('featured-articles-row-1', 'featured-articles-row-1-auto-data');
+    }
+
+    if (pages.length % 2 === 0 && i === pages.length - 1) {
+      cardItem.classList.add('featured-articles-row-last-auto-data');
+    }
+
+    const card = createCardElement(page);
+    cardItem.appendChild(card);
+    articleList.appendChild(cardItem);
+  }
+
+  block.append(articleList);
+}
+
+async function decorateWithProvidedLinks(block) {
   const links = parseCardLinks(block);
   const pages = await lookupPages(links.flat(), 'main');
 
@@ -127,11 +161,21 @@ export default async function decorate(block) {
       const path = links[i][j];
       const cardItem = document.createElement('li');
       cardItem.classList.add(`featured-articles-row-${i + 1}`);
-      const card = createCardElement(path, pages);
+      const page = getPageFromPath(path, pages);
+      const card = createCardElement(page);
       cardItem.appendChild(card);
       articleList.appendChild(cardItem);
     }
   }
 
   block.append(articleList);
+}
+
+export default async function decorate(block) {
+  const hasAutoData = block.classList.contains('auto-data');
+  if (hasAutoData) {
+    decorateWithAutoData(block);
+  } else {
+    decorateWithProvidedLinks(block);
+  }
 }
