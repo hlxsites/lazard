@@ -35,6 +35,7 @@
   --brand-teal: #175c89;
   --brand-turquoise: #00b0af;
   --brand-teal-hover: #1e79b5;
+  --section-gray-background: #f8f7f7;
 
   /* fonts */
   --body-font-family: 'helvetica neue', helvetica, ubuntu, roboto, noto,
@@ -396,4 +397,24 @@ body.article .caption {
 
 body.article .caption em {
   font-style: normal;
+}
+
+.section.highlight-gray {
+  background-color: var(--section-gray-background);
+}
+
+.section.highlight-gray h2 {
+  margin-top: 0;
+  font-weight: 300;
+  font-size: 1.95rem;
+}
+
+.section.highlight-gray h2 ~ hr {
+  border-color: var(--yxt-color-investors-link);
+  width: 150px;
+  margin-left: 0;
+}
+
+.default-content-wrapper p {
+  font-family: var(--serif-font-family);
 }
