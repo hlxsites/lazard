@@ -13,12 +13,8 @@
 
 import {
   toClassName,
+  loadCSS,
   getMetadata,
-  getExperimentConfig,
-} from '../../scripts/scripts.js';
-
-import {
-  loadCSS
 } from '../../scripts/lib-franklin.js';
 
 const percentformat = new Intl.NumberFormat('en-US', { style: 'percent', maximumSignificantDigits: 2 });
@@ -27,9 +23,11 @@ const significanceformat = {
   format: (value) => {
     if (value < 0.005) {
       return 'highly significant';
-    } else if (value < 0.05) {
+    }
+    if (value < 0.05) {
       return 'significant';
-    } else if (value < 0.1) {
+    }
+    if (value < 0.1) {
       return 'marginally significant';
     }
     return 'not significant';
@@ -48,13 +46,68 @@ const bigcountformat = {
 };
 
 /**
+ * Gets experiment config from the manifest
+ * and transforms it to more easily consumable structure.
+ *
+ * the manifest consists of two sheets "settings" and "experiences"
+ *
+ * "settings" is applicable to the entire test and contains information
+ * like "Audience", "Status" or "Blocks".
+ *
+ * "experience" hosts the experiences in columns, consisting of:
+ * a "Percentage Split", "Label" and a set of "Pages".
+ *
+ *
+ * @param {string} experimentId
+ * @returns {object} containing the experiment manifest
+ */
+// eslint-disable-next-line import/prefer-default-export
+export async function getExperimentConfig(experimentId) {
+  const instantExperiment = getMetadata('instant-experiment');
+  if (instantExperiment) {
+    const config = {
+      experimentName: `Instant Experiment: ${experimentId}`,
+      audience: '',
+      status: 'Active',
+      id: experimentId,
+      variants: {},
+      variantNames: [],
+    };
+
+    const pages = instantExperiment.split(',').map((p) => new URL(p.trim()).pathname);
+    const evenSplit = 1 / (pages.length + 1);
+
+    config.variantNames.push('control');
+    config.variants.control = {
+      percentageSplit: '',
+      pages: [window.location.pathname],
+      blocks: [],
+      label: 'Control',
+    };
+
+    pages.forEach((page, i) => {
+      const vname = `challenger-${i + 1}`;
+      config.variantNames.push(vname);
+      config.variants[vname] = {
+        percentageSplit: `${evenSplit}`,
+        pages: [page],
+        label: `Challenger ${i + 1}`,
+      };
+    });
+
+    return (config);
+  }
+  return null;
+}
+
+/**
  * Create Badge if a Page is enlisted in a Helix Experiment
  * @return {Object} returns a badge or empty string
  */
 async function createExperiment() {
   const selectedVariant = (window.hlx && window.hlx.experiment && window.hlx.experiment.selectedVariant) ? window.hlx.experiment.selectedVariant : 'control';
   const experiment = toClassName(getMetadata('experiment'));
-  const engine = getMetadata("experimentation-engine") || 'franklin';
+  const engine = getMetadata('experimentation-engine') || 'franklin';
   console.log('preview experiment', experiment);
   if (experiment && engine === 'franklin') {
     const config = await getExperimentConfig(experiment);
